@@ -1,0 +1,3 @@
+monand.tech {
+   reverse_proxy :8080
+}

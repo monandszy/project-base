@@ -1,0 +1,26 @@
+version: "3.7"
+networks:
+  my-network:
+    driver: bridge
+services:
+  backend:
+    image: project-base/app:latest
+    networks:
+      - my-network
+  caddy:
+    image: caddy:2.8.4-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - my-network
+
+volumes:
+  caddy_data:
+  caddy_config:

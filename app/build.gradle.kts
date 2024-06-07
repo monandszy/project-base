@@ -7,13 +7,13 @@ plugins {
    pmd
    jacoco
    checkstyle
-   id ("org.springframework.boot") version "3.2.2"
+   id("org.springframework.boot") version "3.2.2"
 //   id("com.github.johnrengelman.shadow") version "8.1.1"
    id("nebula.dependency-lock") version "12.7.1"
    id("nebula.contacts") version "6.0.0"
-   id ("com.palantir.docker") version "0.36.0"
-   id ("com.palantir.docker-run") version "0.36.0"
-//   id ("com.palantir.docker-compose") version "0.36.0"
+   id("com.palantir.docker") version "0.36.0"
+   id("com.palantir.docker-run") version "0.36.0"
+   id ("com.palantir.docker-compose") version "0.36.0"
    id("io.spring.dependency-management") version "1.1.5"
 }
 
@@ -33,21 +33,23 @@ repositories {
 }
 
 dependencies {
-   implementation ("org.springframework.boot:spring-boot-starter-web")
-   implementation ("org.springframework.boot:spring-boot-starter-thymeleaf")
+   implementation("org.springframework.boot:spring-boot-starter-web")
+   implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 
    compileOnly("org.projectlombok:lombok:1.18.32")
    annotationProcessor("org.projectlombok:lombok:1.18.32")
 
    testImplementation(libs.junit.jupiter)
    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
 
-configurations.all {
-   resolutionStrategy.activateDependencyLocking()
 }
-
+configurations {
+   all {
+      resolutionStrategy.activateDependencyLocking()
+   }
+}
 tasks {
+
 //      named<ShadowJar>("shadowJar") {
 //      archiveBaseName.set(project.name)
 //      archiveVersion.set("$version")
@@ -61,27 +63,43 @@ tasks {
       enabled = false
    }
 
-   task<Copy>("extractLibs") {
-      dependsOn(bootJar)
-      val bootJar = getByName<BootJar>("bootJar")
-      from(zipTree(bootJar.outputs.files.singleFile))
-      into("build/dependencies")
+   task<Exec>("extractLayers") {
+      dependsOn("bootJar")
+      workingDir = projectDir
+      commandLine(
+         "java",
+         "-Djarmode=layertools",
+         "-jar", "build/libs/${getByName<BootJar>("bootJar").archiveFileName.get()}",
+         "extract",
+         "--destination", "build/extracted"
+      )
    }
    docker {
-      name = "${rootProject.name}/${getByName<BootJar>("bootJar").archiveBaseName.get()}"
-      copySpec.from(getByName<Copy>("extractLibs").outputs).into("dependencies")
-      buildArgs(mapOf("DEPENDENCIES" to "dependencies"))
+      dependsOn(getByName<Exec>("extractLayers"))
+      name = "${rootProject.name}/${project.name}"
+      println(name)
+      tag("monand", "latest")
+      copySpec.from("${layout.projectDirectory}/build/extracted").into("extracted")
+      buildArgs(mapOf("EXTRACTED" to "extracted"))
       setDockerfile(file("Dockerfile"))
    }
    dockerRun {
       named("dockerRun") {
          dependsOn(docker)
       }
-      name = rootProject.group.toString()
-      image = "${rootProject.name}/${getByName<BootJar>("bootJar").archiveBaseName.get()}"
+      name = "${project.name}-${version}"
+      image = "${rootProject.name}/${project.name}"
       ports("8080:8080")
-      daemonize = false
+      arguments("-d")
       clean = true
+      daemonize = false
+   }
+   dockerCompose {
+      setDockerComposeFile(file("docker-compose.yml"))
+      setTemplate(file("compose-template.yml"))
+   }
+   dockerComposeUp {
+      dependsOn("docker")
    }
 
    test {
