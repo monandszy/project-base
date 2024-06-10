@@ -1,0 +1,7 @@
+authtoken: 2hhUIjxIryDtZAYCSQFfAd7AjvB_2dJ9hQajv26m6jH51KWFq
+version: 2
+tunnels:
+  my_tunnel:
+    proto: http
+    hostname: closing-treefrog-settled.ngrok-free.app
+    addr: 8080
