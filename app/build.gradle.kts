@@ -1,4 +1,3 @@
-//import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import nebula.plugin.contacts.Contact
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
@@ -8,7 +7,6 @@ plugins {
    jacoco
    checkstyle
    id("org.springframework.boot") version "3.2.2"
-//   id("com.github.johnrengelman.shadow") version "8.1.1"
    id("nebula.dependency-lock") version "12.7.1"
    id("nebula.contacts") version "6.0.0"
    id("com.palantir.docker") version "0.36.0"
@@ -41,26 +39,27 @@ dependencies {
 
    testImplementation(libs.junit.jupiter)
    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
-}
+   docker("library:caddy:2.8.4-alpine")
+   }
 configurations {
    all {
       resolutionStrategy.activateDependencyLocking()
    }
 }
 tasks {
-
-//      named<ShadowJar>("shadowJar") {
-//      archiveBaseName.set(project.name)
-//      archiveVersion.set("$version")
-//      archiveClassifier.set("")
-//      configurations = listOf(project.configurations.runtimeClasspath.get())
-//   }
    bootJar {
       archiveFileName = "${project.name}-${version}.${archiveExtension.get()}"
    }
    jar {
       enabled = false
+   }
+
+   task<JavaExec>("runJarDev") {
+      mainClass.set("-jar")
+      args = listOf(
+         "${layout.buildDirectory}/libs/${getByName<BootJar>("bootJar").archiveFileName.get()}",
+         "-Dspring.profiles.active=dev"
+      )
    }
 
    task<Exec>("extractLayers") {
@@ -77,7 +76,6 @@ tasks {
    docker {
       dependsOn(getByName<Exec>("extractLayers"))
       name = "${rootProject.name}/${project.name}"
-      println(name)
       tag("monand", "latest")
       copySpec.from("${layout.projectDirectory}/build/extracted").into("extracted")
       buildArgs(mapOf("EXTRACTED" to "extracted"))
@@ -95,11 +93,14 @@ tasks {
       daemonize = false
    }
    dockerCompose {
+      dockerComposeUp {
+         dependsOn("docker")
+      }
       setDockerComposeFile(file("docker-compose.yml"))
       setTemplate(file("compose-template.yml"))
-   }
-   dockerComposeUp {
-      dependsOn("docker")
+      templateTokens = mapOf(
+         Pair("m", "")
+      )
    }
 
    test {
