@@ -246,4 +246,4 @@ eval "set -- $(
         tr '\n' ' '
     )" '"$@"'
 
-exec "$JAVACMD" "$@"
+exec "$JAVACMD" "$@" --no-scan

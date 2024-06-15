@@ -1,0 +1,16 @@
+services:
+  backend:
+    image: project-base/app:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    ports:
+      - 8080:8080
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    privileged: true
+    entrypoint: cloudflared
+    volumes:
+        - ./tunnel:/etc/cloudflared
+networks:
+  default:
+    driver: bridge

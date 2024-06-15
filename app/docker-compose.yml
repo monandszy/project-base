@@ -1,8 +1,0 @@
-services:
-  backend:
-    image: project-base/app:latest
-    networks:
-      - my-network
-    ports:
-      - 8080:8080
-  caddy:

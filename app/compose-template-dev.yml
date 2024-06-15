@@ -1,0 +1,22 @@
+services:
+  backend:
+    image: project-base/app:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    ports:
+      - 8080:8080
+  caddy:
+    image: caddy:${caddy-version}
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
+networks:
+  default:
+    driver: bridge
