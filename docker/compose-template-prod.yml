@@ -6,7 +6,7 @@ services:
     ports:
       - 8080:8080
   tunnel:
-    image: cloudflare/cloudflared:latest
+    image: cloudflare/cloudflared:${cloudflared-version}
     privileged: true
     entrypoint: cloudflared
     volumes:
