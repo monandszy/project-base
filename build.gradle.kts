@@ -20,75 +20,125 @@ subprojects {
 val versionFile: File by project.extra { file("project.version") }
 
 tasks {
-   fun bumpVersion(component: String, newSuffix: String? = null): String {
-      val versionString = versionFile.readText().trim()
+   fun commitVersion() {
+      versionFile.writeText(version.toString())
+      exec {
+         commandLine("git", "commit", "-a", "-m \"$version\"")
+      }
+   }
 
-      val versionParts = versionString.split("-", limit = 2)
-      val suffix =
-         if (Objects.nonNull(newSuffix)) newSuffix
-         else if (versionParts.size > 1) "-" + versionParts[1]
-         else ""
+   fun push() {
+      exec {
+         commandLine("git", "push")
+      }
+   }
 
-      val versionNumbers = versionParts[0].split(".")
-      val major = versionNumbers[0].toInt()
-      var minor = versionNumbers[1].toInt()
-      var patch = versionNumbers[2].toInt()
-      when (component.lowercase()) {
-         "minor" -> {
-            minor += 1
-            patch = 0
-         }
+   fun pull() {
+      exec {
+         commandLine("git", "pull")
+      }
+   }
 
-         "patch" -> {
-            patch += 1
-         }
+   fun switch(branch: String) {
+      exec {
+         commandLine("git", "switch", branch)
+      }
+   }
 
-         "" -> {
+   fun changeSuffix(newSuffix: String) {
+      val versionParts = version.toString().split("-", limit = 2)
+      version = "${versionParts[1]}${if (newSuffix.isEmpty()) "" else "-$newSuffix"}"
+   }
 
+   fun bumpRelease() {
+      val versionParts = version.toString().split("-", limit = 2)
+      if (versionParts.size == 2 && versionParts[1] == "rc") {
+         val numbers = versionParts[0].split(".")
+         version = "${numbers[0]}.${numbers[1].toInt() + 1}.${numbers[2]}-SNAPSHOT"
+         commitVersion()
+         push()
+      }
+   }
+
+   fun bumpHotfix() {
+      val versionParts = version.toString().split("-", limit = 2)
+      val numbers = versionParts[0].split(".")
+      version = "${numbers[0]}.${numbers[1]}.${numbers[2].toInt() + 1}"
+      commitVersion()
+   }
+
+   register("featureStart") {
+      doLast {
+         val branch = project.properties["branch"] ?: "new"
+         switch("dev")
+         pull()
+         exec {
+            commandLine("sh", "-c", "\"git-flow feature start $branch\"")
          }
       }
-      return "$major.$minor.$patch$suffix"
+   }
+
+   register("featureFinish") {
+      doLast {
+         val branch = project.properties["branch"] ?: "new"
+         switch("dev")
+         pull()
+         bumpRelease()
+         exec {
+            commandLine("sh", "-c", "\"git-flow feature finish -rkS $branch\"")
+         }
+      }
    }
 
    register("releaseStart") {
-      val releaseVersion = bumpVersion("", "")
-      val output = ByteArrayOutputStream()
-      exec {
-         commandLine("git", "diff", "--name-only")
-         standardOutput = output
-      }
-      println(output.size())
-//      if (output.size() != 0) {
-//         exec {
-//            commandLine("git", "commit", "-a", "-m \"release-$releaseVersion\"")
-//         }
-//      }
-//      exec {
-//         workingDir = rootDir;
-//         commandLine("sh", "-c", "\"git-flow release start $releaseVersion\"")
-//      }
       doLast {
-         versionFile.writeText(releaseVersion)
+         switch("dev")
+         pull()
+         changeSuffix("")
+         commitVersion()
+         push()
+         exec {
+            commandLine("sh", "-c", "\"git-flow release start $version\"")
+         }
       }
    }
 
+   // assumes one release branch at a time. switch to branch when running.
    register("releaseFinish") {
-
-//      val releaseVersion = bumpVersion("", "")    // unsnap version
-      // run git push release (preserve it)
-      // run git flow finish
-      // git flow release finish '0.1.0'
-      // push master
-      bumpVersion("minor", "-SNAPSHOT")
+      doLast {
+         changeSuffix("")
+         commitVersion()
+         exec {
+            commandLine("sh", "-c", "\"git-flow release finish -pkS -m $version '$version-rc'\"")
+         }
+      }
    }
 
    register("hotfixStart") {
-      bumpVersion("patch", "")
-      // adjust gradle version for docker versioning separation
+      doLast {
+         val branch = project.properties["branch"] ?: "new"
+         switch("master")
+         pull()
+         exec {
+            commandLine("sh", "-c", "\"git-flow hotfix start $branch\"")
+         }
+         changeSuffix("-hotfix")
+         commitVersion()
+      }
    }
 
    register("hotfixFinish") {
-      // push branch for preservation
+      doLast {
+         val branch = project.properties["branch"] ?: "new"
+         switch("master")
+         pull()
+         switch("hotfix/$branch")
+         bumpHotfix()
+         commitVersion()
+         exec {
+            commandLine("sh", "-c", "\"git-flow hotfix finish -p -m $version $branch\"")
+         }
+      }
    }
 
    register("printVersion") {
@@ -128,7 +178,6 @@ tasks {
       val templateFile = file("docker/compose-template-prod.yml")
       generateCompose(versionMap + tokenMap, templateFile)
    }
-
 
    register<Exec>("composeUp") {
       workingDir("./docker/")
