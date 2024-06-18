@@ -23,32 +23,33 @@ tasks {
 
    fun push() {
       exec {
-         commandLine("git", "push")
+         commandLine("git", "push", "-q")
       }
    }
 
    fun pull() {
       exec {
-         commandLine("git", "pull")
+         commandLine("git", "pull", "-q")
       }
    }
 
    fun switch(branch: String) {
       exec {
-         commandLine("git", "switch", branch)
+         commandLine("git", "switch", "-q", branch)
       }
    }
 
    fun commitVersion() {
       versionFile.writeText(version.toString())
       exec {
-         commandLine("git", "commit", "-a", "-m \"$version\"")
+         commandLine("git", "commit", "-q", "-a", "-m \"$version\"")
       }
    }
 
    fun changeSuffix(newSuffix: String) {
       val versionParts = version.toString().split("-", limit = 2)
-      version = "${versionParts[1]}${if (newSuffix.isEmpty()) "" else "-$newSuffix"}"
+      version = "${versionParts[0]}${if (newSuffix.isEmpty()) "" else "-$newSuffix"}"
+      commitVersion()
    }
 
    fun bumpRelease() {
@@ -95,8 +96,7 @@ tasks {
       doLast {
          switch("dev")
          pull()
-         changeSuffix("")
-         commitVersion()
+         changeSuffix("rc")
          push()
          exec {
             commandLine("sh", "-c", "\"git-flow release start $version\"")
@@ -108,7 +108,6 @@ tasks {
    register("releaseFinish") {
       doLast {
          changeSuffix("")
-         commitVersion()
          exec {
             commandLine("sh", "-c", "\"git-flow release finish -pkS -m $version '$version-rc'\"")
          }
@@ -124,7 +123,6 @@ tasks {
             commandLine("sh", "-c", "\"git-flow hotfix start $branch\"")
          }
          changeSuffix("-hotfix")
-         commitVersion()
       }
    }
 
@@ -135,7 +133,6 @@ tasks {
          pull()
          switch("hotfix/$branch")
          bumpHotfix()
-         commitVersion()
          exec {
             commandLine("sh", "-c", "\"git-flow hotfix finish -p -m $version $branch\"")
          }

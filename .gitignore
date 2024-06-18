@@ -29,3 +29,7 @@ build
 hs_err_pid*
 replay_pid*
 /.idea/
+/docker/caddy/
+/docker/tunnel/
+/docker/docker-compose.yml
+/docker/tokens
