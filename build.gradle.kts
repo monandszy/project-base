@@ -189,6 +189,15 @@ tasks {
       )
    }
 
+   register<Exec>("composeDown") {
+      workingDir("./docker/")
+      commandLine(
+         "docker-compose",
+         "down",
+         "-d"
+      )
+   }
+
    fun isContainerRunning(containerName: String): Boolean {
       val output = ByteArrayOutputStream()
       exec {
