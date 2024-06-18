@@ -20,12 +20,6 @@ subprojects {
 val versionFile: File by project.extra { file("project.version") }
 
 tasks {
-   fun commitVersion() {
-      versionFile.writeText(version.toString())
-      exec {
-         commandLine("git", "commit", "-a", "-m \"$version\"")
-      }
-   }
 
    fun push() {
       exec {
@@ -42,6 +36,13 @@ tasks {
    fun switch(branch: String) {
       exec {
          commandLine("git", "switch", branch)
+      }
+   }
+
+   fun commitVersion() {
+      versionFile.writeText(version.toString())
+      exec {
+         commandLine("git", "commit", "-a", "-m \"$version\"")
       }
    }
 
