@@ -9,22 +9,14 @@ plugins {
    jacoco
    checkstyle
    id("org.springframework.boot") version "3.2.2"
-   id("nebula.dependency-lock") version "12.7.1"
-   id("nebula.contacts") version "6.0.0"
    id("com.palantir.docker") version "0.36.0"
    id("io.spring.dependency-management") version "1.1.5"
+   id("nebula.dependency-lock") version "12.7.1"
 }
 
 group = "code"
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 application.mainClass = "code.App"
-
-contacts {
-   addPerson("monandszy@tuta.io", delegateClosureOf<Contact> {
-      moniker = "Szymon Andrzejewski"
-      roles("developer", "maintainer")
-   })
-}
 
 repositories {
    mavenCentral()
@@ -47,6 +39,18 @@ configurations {
    }
 }
 tasks {
+   register("reLock") {
+/*
+diffLock - Diff existing lock and generated lock file
+generateLock - Create a lock file in build/<configured name>
+migrateLockeDepsToCoreLocks - Migrates Nebula-locked dependencies to use core Gradle locks
+migrateToCoreLocks - Migrates all dependencies to use core Gradle locks
+saveLock - Move the generated lock file into the project directory
+updateLock - Apply updates to a preexisting lock file and write to build/<specified name>
+gradlew :app:dependencies --write-locks
+*/
+   }
+
    bootJar {
       archiveFileName = "${project.name}-${version}.${archiveExtension.get()}"
    }

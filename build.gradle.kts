@@ -1,54 +1,99 @@
-import nebula.plugin.release.git.opinion.Strategies
+import nebula.plugin.contacts.Contact
 import java.io.ByteArrayOutputStream
 import java.nio.file.Files
-import java.util.HashMap
+import java.util.*
 
 plugins {
-   id("com.netflix.nebula.release") version "19.0.9"
+   id("nebula.contacts") version "6.0.0"
 }
 
-/*
-diffLock - Diff existing lock and generated lock file
-generateLock - Create a lock file in build/<configured name>
-migrateLockeDepsToCoreLocks - Migrates Nebula-locked dependencies to use core Gradle locks
-migrateToCoreLocks - Migrates all dependencies to use core Gradle locks
-saveLock - Move the generated lock file into the project directory
-updateLock - Apply updates to a preexisting lock file and write to build/<specified name>
-gradlew :app:dependencies --write-locks
-*/
+contacts {
+   addPerson("monandszy@tuta.io", delegateClosureOf<Contact> {
+      moniker = "Szymon Andrzejewski"
+      roles("developer", "maintainer")
+   })
+}
+subprojects {
+   version = rootProject.version
+}
+
+val versionFile: File by project.extra { file("project.version") }
 
 tasks {
-   register("reLock") {
+   fun bumpVersion(component: String, newSuffix: String? = null): String {
+      val versionString = versionFile.readText().trim()
 
-   }
+      val versionParts = versionString.split("-", limit = 2)
+      val suffix =
+         if (Objects.nonNull(newSuffix)) newSuffix
+         else if (versionParts.size > 1) "-" + versionParts[1]
+         else ""
 
-   release {
-      remote = "origin"
-      defaultVersionStrategy = Strategies.getSNAPSHOT()
-   }
-   nebulaRelease {
-      allowReleaseFromDetached = false
-      checkRemoteBranchOnRelease = true
-// defaults:
-//   Release: [master, HEAD, main, (release(-|/))?\d+(\.\d+)?\.x, v?\d+\.\d+\.\d+]
-//   Exclude: []
-//   Short:  (?:(?:bugfix|feature|hotfix|release)(?:-|/))?(.+)
+      val versionNumbers = versionParts[0].split(".")
+      val major = versionNumbers[0].toInt()
+      var minor = versionNumbers[1].toInt()
+      var patch = versionNumbers[2].toInt()
+      when (component.lowercase()) {
+         "minor" -> {
+            minor += 1
+            patch = 0
+         }
 
-//   shortenedBranchPattern = ""
-//   addReleaseBranchPattern("dev")
-//   addExcludeBranchPattern("")
-      /*
-      gradlew final -Prelease.version=0.1.0
-      */
-      named("final") {
-         doLast {
-            println("Final release created with version ${project.version}")
+         "patch" -> {
+            patch += 1
+         }
+
+         "" -> {
+
          }
       }
-      register("printVersion") {
-         doLast {
-            println("Project version is ${project.version}")
-         }
+      return "$major.$minor.$patch$suffix"
+   }
+
+   register("releaseStart") {
+      val releaseVersion = bumpVersion("", "")
+      val output = ByteArrayOutputStream()
+      exec {
+         commandLine("git", "diff", "--name-only")
+         standardOutput = output
+      }
+      println(output.size())
+//      if (output.size() != 0) {
+//         exec {
+//            commandLine("git", "commit", "-a", "-m \"release-$releaseVersion\"")
+//         }
+//      }
+//      exec {
+//         workingDir = rootDir;
+//         commandLine("sh", "-c", "\"git-flow release start $releaseVersion\"")
+//      }
+      doLast {
+         versionFile.writeText(releaseVersion)
+      }
+   }
+
+   register("releaseFinish") {
+
+//      val releaseVersion = bumpVersion("", "")    // unsnap version
+      // run git push release (preserve it)
+      // run git flow finish
+      // git flow release finish '0.1.0'
+      // push master
+      bumpVersion("minor", "-SNAPSHOT")
+   }
+
+   register("hotfixStart") {
+      bumpVersion("patch", "")
+      // adjust gradle version for docker versioning separation
+   }
+
+   register("hotfixFinish") {
+      // push branch for preservation
+   }
+
+   register("printVersion") {
+      doLast {
+         println("Project version is ${project.version}")
       }
    }
 
