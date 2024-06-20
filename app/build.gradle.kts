@@ -8,9 +8,8 @@ plugins {
    pmd
    jacoco
    checkstyle
-   id("org.springframework.boot") version "3.2.2"
-   id("io.spring.dependency-management") version "1.1.5"
-   id("nebula.dependency-lock") version "12.7.1"
+   alias(libs.plugins.spring.boot)
+   alias(libs.plugins.spring.dependency)
 }
 
 group = "code"
@@ -22,33 +21,20 @@ repositories {
 }
 
 dependencies {
-   implementation("org.springframework.boot:spring-boot-starter-web")
-   implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-
-   compileOnly("org.projectlombok:lombok:1.18.32")
-   annotationProcessor("org.projectlombok:lombok:1.18.32")
-
+   implementation(libs.bundles.spring)
+   compileOnly(libs.lombok)
+   annotationProcessor(libs.lombok)
    testImplementation(libs.junit.jupiter)
-   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+   testRuntimeOnly(libs.junit.platform)
+}
+java {
+   @Suppress("UnstableApiUsage")
+   consistentResolution {
+      useCompileClasspathVersions()
+   }
 }
 
-configurations {
-   all {
-      resolutionStrategy.activateDependencyLocking()
-   }
-}
 tasks {
-   register("reLock") {
-/*
-diffLock - Diff existing lock and generated lock file
-generateLock - Create a lock file in build/<configured name>
-migrateLockeDepsToCoreLocks - Migrates Nebula-locked dependencies to use core Gradle locks
-migrateToCoreLocks - Migrates all dependencies to use core Gradle locks
-saveLock - Move the generated lock file into the project directory
-updateLock - Apply updates to a preexisting lock file and write to build/<specified name>
-gradlew :app:dependencies --write-locks
-*/
-   }
 
    bootJar {
       archiveFileName = "${project.name}-${version}.${archiveExtension.get()}"
@@ -75,8 +61,8 @@ gradlew :app:dependencies --write-locks
             commandLine(
                "docker",
                "build",
-               "--build-arg","EXTRACTED=build/extracted",
-               "-t","${rootProject.name}/${project.name}:$version",
+               "--build-arg", "EXTRACTED=build/extracted",
+               "-t", "${rootProject.name}/${project.name}:$version",
                "."
             )
          }
@@ -91,7 +77,6 @@ gradlew :app:dependencies --write-locks
    }
 
    pmd {
-      toolVersion = "7.0.0"
       isConsoleOutput = false
       isIgnoreFailures = true
       rulesMinimumPriority = 5
@@ -114,7 +99,6 @@ gradlew :app:dependencies --write-locks
    }
 
    checkstyle {
-      toolVersion = "8.42"
       isIgnoreFailures = true
       isShowViolations = false
       configFile = file("config/checkstyle.xml")
@@ -129,7 +113,6 @@ gradlew :app:dependencies --write-locks
    }
 
    jacoco {
-      toolVersion = "0.8.11"
       jacocoTestReport {
          reports {
             xml.required = false
