@@ -94,7 +94,7 @@ tasks {
          pull()
          bumpRelease()
          exec {
-            commandLine("sh", "-c", "\"git-flow feature finish -S $branch\"")
+            commandLine("sh", "-c", "\"git-flow feature finish -kS $branch\"")
          }
       }
    }
