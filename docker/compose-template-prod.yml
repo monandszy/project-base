@@ -10,9 +10,7 @@ services:
     privileged: true
     entrypoint: cloudflared
     volumes:
-      - type: bind
-        source: ./tunnel
-        target: /etc/cloudflared
+        - ./tunnel:/etc/cloudflared
 networks:
   default:
     driver: bridge

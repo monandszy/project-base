@@ -104,10 +104,11 @@ tasks {
          switch("dev")
          pull()
          changeSuffix("rc")
-         push()
          exec {
             commandLine("sh", "-c", "\"git-flow release start $version\"")
          }
+         switch("dev")
+         push()
       }
    }
 
@@ -116,7 +117,7 @@ tasks {
       doLast {
          changeSuffix("")
          exec {
-            commandLine("sh", "-c", "\"git-flow release finish -p -m $version '$version-rc'\"")
+            commandLine("sh", "-c", "\"git-flow release finish -pS -m $version '$version-rc'\"")
          }
          changeSuffix("-SNAPSHOT")
       }
