@@ -9,7 +9,6 @@ plugins {
    jacoco
    checkstyle
    id("org.springframework.boot") version "3.2.2"
-   id("com.palantir.docker") version "0.36.0"
    id("io.spring.dependency-management") version "1.1.5"
    id("nebula.dependency-lock") version "12.7.1"
 }
@@ -69,13 +68,19 @@ gradlew :app:dependencies --write-locks
          "--destination", "build/extracted"
       )
    }
-   docker {
+   register("docker") {
       dependsOn(getByName("extractLayers"))
-      name = "${rootProject.name}/${project.name}"
-      tag("monand", "latest")
-      copySpec.from("${layout.projectDirectory}/build/extracted").into("extracted")
-      buildArgs(mapOf("EXTRACTED" to "extracted"))
-      setDockerfile(file("Dockerfile"))
+      doLast {
+         exec {
+            commandLine(
+               "docker",
+               "build",
+               "--build-arg","EXTRACTED=build/extracted",
+               "-t","${rootProject.name}/${project.name}:$version",
+               "."
+            )
+         }
+      }
    }
 
    test {

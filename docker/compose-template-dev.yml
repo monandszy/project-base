@@ -1,6 +1,6 @@
 services:
   backend:
-    image: project-base/app:latest
+    image: project-base/app:${app-version}
     environment:
       - SPRING_PROFILES_ACTIVE=dev
     ports:
@@ -20,3 +20,4 @@ services:
 networks:
   default:
     driver: bridge
+    name: dev

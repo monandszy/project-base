@@ -1,6 +1,6 @@
 services:
   backend:
-    image: project-base/app:latest
+    image: project-base/app:${app-version}
     environment:
       - SPRING_PROFILES_ACTIVE=prod
     ports:
@@ -14,3 +14,4 @@ services:
 networks:
   default:
     driver: bridge
+    name: prod

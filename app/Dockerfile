@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk-alpine
+FROM eclipse-temurin:21-jdk-alpine as build
 VOLUME /tmp
 ARG EXTRACTED=build/dependencies
 COPY ${EXTRACTED}/dependencies/ ./

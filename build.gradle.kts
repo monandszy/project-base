@@ -20,7 +20,6 @@ subprojects {
 val versionFile: File by project.extra { file("project.version") }
 
 tasks {
-
    fun push() {
       exec {
          commandLine("git", "push", "-q")
@@ -41,8 +40,15 @@ tasks {
 
    fun commitVersion() {
       versionFile.writeText(version.toString())
+      val output = ByteArrayOutputStream()
       exec {
-         commandLine("git", "commit", "-q", "-a", "-m \"$version\"")
+         commandLine("git", "diff", "--name-only")
+         standardOutput = output
+      }
+      if (output.size() != 0) {
+         exec {
+            commandLine("git", "commit", "-a", "-m \"$version\"")
+         }
       }
    }
 
@@ -71,8 +77,8 @@ tasks {
 
    register("featureStart") {
       doLast {
-         val branch = project.properties["branch"] ?: "new"
          switch("dev")
+         val branch = project.properties["branch"] ?: throw GradleException("-Pbranch=name not provided")
          pull()
          exec {
             commandLine("sh", "-c", "\"git-flow feature start $branch\"")
@@ -82,12 +88,13 @@ tasks {
 
    register("featureFinish") {
       doLast {
-         val branch = project.properties["branch"] ?: "new"
+         val branch = project.properties["branch"] ?: throw GradleException("-Pbranch=name not provided")
+         switch("feature/$branch")
          switch("dev")
          pull()
          bumpRelease()
          exec {
-            commandLine("sh", "-c", "\"git-flow feature finish -rkS $branch\"")
+            commandLine("sh", "-c", "\"git-flow feature finish -S $branch\"")
          }
       }
    }
@@ -104,20 +111,21 @@ tasks {
       }
    }
 
-   // assumes one release branch at a time. switch to branch when running.
+   // !! assumes one release branch at a time. switch to branch when running.
    register("releaseFinish") {
       doLast {
          changeSuffix("")
          exec {
-            commandLine("sh", "-c", "\"git-flow release finish -pkS -m $version '$version-rc'\"")
+            commandLine("sh", "-c", "\"git-flow release finish -p -m $version '$version-rc'\"")
          }
+         changeSuffix("-SNAPSHOT")
       }
    }
 
    register("hotfixStart") {
       doLast {
-         val branch = project.properties["branch"] ?: "new"
          switch("master")
+         val branch = project.properties["branch"] ?: throw GradleException("-Pbranch=name not provided")
          pull()
          exec {
             commandLine("sh", "-c", "\"git-flow hotfix start $branch\"")
@@ -128,8 +136,8 @@ tasks {
 
    register("hotfixFinish") {
       doLast {
-         val branch = project.properties["branch"] ?: "new"
          switch("master")
+         val branch = project.properties["branch"] ?: throw GradleException("-Pbranch=name not provided")
          pull()
          switch("hotfix/$branch")
          bumpHotfix()
@@ -162,37 +170,24 @@ tasks {
             variables[keyValue[0].trim()] = keyValue[1].trim()
          }
       }
+      variables["app-version"] = "$version"
       return variables
    }
    register("generateDevCompose") {
-      val versionMap = loadFile(file("docker/versions"))
-      val templateFile = file("docker/compose-template-dev.yml")
-      generateCompose(versionMap, templateFile)
+      doLast {
+         val versionMap = loadFile(file("docker/versions"))
+         val templateFile = file("docker/compose-template-dev.yml")
+         generateCompose(versionMap, templateFile)
+      }
    }
 
    register("generateProdCompose") {
-      val versionMap = loadFile(file("docker/versions"))
-      val tokenMap = loadFile(file("docker/tokens"))
-      val templateFile = file("docker/compose-template-prod.yml")
-      generateCompose(versionMap + tokenMap, templateFile)
-   }
-
-   register<Exec>("composeUp") {
-      workingDir("./docker/")
-      commandLine(
-         "docker-compose",
-         "up",
-         "-d"
-      )
-   }
-
-   register<Exec>("composeDown") {
-      workingDir("./docker/")
-      commandLine(
-         "docker-compose",
-         "down",
-         "-d"
-      )
+      doLast {
+         val versionMap = loadFile(file("docker/versions"))
+         val tokenMap = loadFile(file("docker/tokens"))
+         val templateFile = file("docker/compose-template-prod.yml")
+         generateCompose(versionMap + tokenMap, templateFile)
+      }
    }
 
    fun isContainerRunning(containerName: String): Boolean {
@@ -226,16 +221,47 @@ tasks {
       println("Tunnel Started!")
    }
 
-   register("composeDevUp") {
-      dependsOn(getByName("generateDevCompose"))
-      dependsOn(getByName("composeUp"))
+   fun composeUp(projectName: String) {
+      exec {
+         workingDir("./docker/")
+         commandLine(
+            "docker-compose",
+            "-p", projectName,
+//            "--scale", "server=2",
+//            "--no-recreate", "server",
+            "up",
+//            "--no-deps",
+            "-d",
+         )
+      }
    }
-   register("composeProdUp") {
-      dependsOn(getByName("generateProdCompose"))
-      dependsOn(getByName("composeUp"))
+
+   register("composeDevUp") {
+      dependsOn("app:docker")
+      dependsOn("generateDevCompose")
       doLast {
-         waitUntilRunning("docker-tunnel-1")
+         composeUp("dev")
+      }
+   }
+
+   register("composeProdUp") {
+      dependsOn("app:docker")
+      dependsOn("generateProdCompose")
+      doLast {
+         composeUp("prod")
+         waitUntilRunning("prod-tunnel-1")
          runTunnel()
+      }
+   }
+
+   register("composeDown") {
+      doLast{
+         exec {
+            commandLine("docker","compose","-p","dev","down")
+         }
+         exec {
+            commandLine("docker","compose","-p","prod","down")
+         }
       }
    }
 }

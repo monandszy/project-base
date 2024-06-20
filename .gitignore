@@ -33,3 +33,4 @@ replay_pid*
 /docker/tunnel/
 /docker/docker-compose.yml
 /docker/tokens
+/docker/.env
