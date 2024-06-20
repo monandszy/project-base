@@ -13,9 +13,15 @@ services:
       - "443:443"
       - "443:443/udp"
     volumes:
-      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
-      - ./caddy/data:/data
-      - ./caddy/config:/config
+      - type: bind
+        source: ./caddy/Caddyfile
+        target: /etc/caddy/Caddyfile
+      - type: bind
+        source: ./caddy/data
+        target: /data
+      - type: bind
+        source: ./caddy/config
+        target: /config
 
 networks:
   default:
