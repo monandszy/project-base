@@ -1,6 +1,5 @@
 tunnel: app-tunnel
 no-autoupdate: true
-http2Origin: true
 ingress:
   - hostname: monand.tech
     service: http://10.0.1.34:8000
