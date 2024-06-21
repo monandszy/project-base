@@ -24,11 +24,6 @@ services:
       - 8080:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-  whoami:
-    # A container that exposes an API to show its IP address
-    image: traefik/whoami
-    ports:
-      - 8001:8001
 networks:
   default:
     driver: bridge
