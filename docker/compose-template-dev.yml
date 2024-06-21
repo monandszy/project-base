@@ -22,7 +22,7 @@ services:
     labels:
       - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
 
-networks:
-  default:
-    driver: bridge
-    name: dev
+#networks:
+#  default:
+#    driver: bridge
+#    name: dev
