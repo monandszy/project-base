@@ -250,6 +250,8 @@ tasks {
       dependsOn("generateProdCompose")
       doLast {
          composeUp("prod", isForceRecreate.toString())
+         waitUntilRunning("prod-tunnel-1")
+         runTunnel()
       }
    }
 
