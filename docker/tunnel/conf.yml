@@ -1,6 +1,6 @@
 tunnel: app-tunnel
 no-autoupdate: true
-http2Origin: monand.tech
+http2Origin: true
 httpHostHeader: monand.tech
 originServerName: monand.tech
 ingress:

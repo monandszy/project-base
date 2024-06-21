@@ -1,10 +1,9 @@
 tls:
+  certificates:
+    - certFile: ./certificates/monand.tech.pem
+      keyFile: ./certificates/monand.tech.key
   stores:
     default:
       defaultCertificate:
-        certFile: /origin-certificates/cert.pem
-        keyFile: /origin-certificates/cert.key
-
-  certificates:
-    - certFile: /origin-certificates/cert.pem
-      keyFile: /origin-certificates/cert.key
+        certFile: ./certificates/monand.tech.pem
+        keyFile: ./certificates/monand.tech.key

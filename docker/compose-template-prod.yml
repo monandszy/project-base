@@ -40,8 +40,9 @@ services:
       - 8080:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./tunnel/certificates.yaml:/certificates.yaml
+      - ./tunnel/certificates/certificates.yaml:/certificates.yaml
       - ./tunnel/certificates/:/certificates
+      - ./tunnel/traefik.yml:/traefik.yml
 #      - .tunnel/certificates/origin:/certificates/origin
 networks:
   default:
