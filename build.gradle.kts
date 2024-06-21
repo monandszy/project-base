@@ -104,20 +104,19 @@ tasks {
          switch("dev")
          pull()
          changeSuffix("rc")
-         exec {
-            commandLine("sh", "-c", "\"git-flow release start $version\"")
-         }
-         switch("dev")
          push()
+         exec {
+            commandLine("sh", "-c", "\"git-flow release start ${version.toString().split("-")[0]}\"")
+         }
       }
    }
 
-   // !! assumes one release branch at a time. switch to branch when running.
+   // assumes one release branch at a time. switch to branch when running.
    register("releaseFinish") {
       doLast {
          changeSuffix("")
          exec {
-            commandLine("sh", "-c", "\"git-flow release finish -pS -m $version '$version-rc'\"")
+            commandLine("sh", "-c", "\"git-flow release finish -pS -m $version '$version'\"")
          }
          changeSuffix("-SNAPSHOT")
       }
