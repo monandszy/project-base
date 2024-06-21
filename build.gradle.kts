@@ -212,7 +212,7 @@ tasks {
       exec {
          workingDir("./docker/tunnel/")
          commandLine(
-            "bash", "run_tunnel.sh", "&"
+            "bash", "run_tunnel.sh", "&>/dev/null", "&"
          )
       }
    }
