@@ -1,9 +1,0 @@
-tls:
-  certificates:
-    - certFile: ./certificates/monand.tech.pem
-      keyFile: ./certificates/monand.tech.key
-  stores:
-    default:
-      defaultCertificate:
-        certFile: ./certificates/monand.tech.pem
-        keyFile: ./certificates/monand.tech.key

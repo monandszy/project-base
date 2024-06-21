@@ -9,10 +9,8 @@ services:
       - 8000
     labels:
       - traefik.enable=true
-      - traefik.http.routers.backend.rule=Host(`traefik.monand.tech`)
-#      - traefik.http.routers.backend.entrypoints=websecure
+      - traefik.http.routers.backend.rule=Host(`10.0.1.34`)
       - traefik.http.routers.backend.entrypoints=web
-      - traefik.http.routers.backend.tls=true
       - traefik.http.services.backend.loadbalancer.server.port=8000
   tunnel:
     image: cloudflare/cloudflared:${cloudflared-version}
@@ -30,20 +28,12 @@ services:
       - --providers.docker
       - --providers.docker.exposedbydefault=false
       - --entryPoints.web.address=:80
-#      - --entrypoints.websecure.address=:443
-#      - --providers.file.filename=/certificates.yaml
     deploy:
       mode: global
     ports:
-      - 80:80
-      - 443:443
-      - 8080:8080
+      - 8000:80
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./tunnel/certificates/certificates.yaml:/certificates.yaml
-      - ./tunnel/certificates:/certificates
-#      - ./tunnel/traefik.yml:/traefik.yml
-#      - .tunnel/certificates/origin:/certificates/origin
 networks:
   default:
     driver: bridge
