@@ -130,7 +130,7 @@ tasks {
          exec {
             commandLine("sh", "-c", "\"git-flow hotfix start $branch\"")
          }
-         changeSuffix("-hotfix")
+         changeSuffix("hotfix")
       }
    }
 
