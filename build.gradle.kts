@@ -239,8 +239,6 @@ tasks {
       dependsOn("generateDevCompose")
       doLast {
          composeUp("dev", isForceRecreate.toString())
-         waitUntilRunning("prod-tunnel-1")
-         runTunnel()
       }
    }
 
