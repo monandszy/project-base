@@ -215,7 +215,7 @@ tasks {
          "run", "app-tunnel"
       )
       val process = ProcessBuilder(command).start()
-      process.waitFor(5L, TimeUnit.SECONDS)
+      process.waitFor(10L, TimeUnit.SECONDS)
       process.destroyForcibly()
       println("Tunnel Started!")
    }

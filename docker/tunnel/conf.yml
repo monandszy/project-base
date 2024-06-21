@@ -1,5 +1,5 @@
 tunnel: app-tunnel
-no-autoupdate: false
+no-autoupdate: true
 ingress:
   - hostname: monand.tech
     service: https://traefik
