@@ -9,8 +9,8 @@ services:
       - 8000
     labels:
       - traefik.enable=true
-      - traefik.http.routers.backend.rule=Host(`monand.tech`)
-      - traefik.http.routers.backend.entrypoints=websecure
+      - traefik.http.routers.backend.rule=Host(`traefik.monand.tech`)
+#      - traefik.http.routers.backend.entrypoints=websecure
       - traefik.http.routers.backend.entrypoints=web
       - traefik.http.routers.backend.tls=true
       - traefik.http.services.backend.loadbalancer.server.port=8000
@@ -30,8 +30,8 @@ services:
       - --providers.docker
       - --providers.docker.exposedbydefault=false
       - --entryPoints.web.address=:80
-      - --entrypoints.websecure.address=:443
-      - --providers.file.filename=/certificates.yaml
+#      - --entrypoints.websecure.address=:443
+#      - --providers.file.filename=/certificates.yaml
     deploy:
       mode: global
     ports:
