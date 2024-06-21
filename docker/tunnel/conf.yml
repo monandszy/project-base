@@ -1,6 +1,9 @@
 tunnel: app-tunnel
 no-autoupdate: true
 ingress:
+  - http2Origin: monand.tech
+  - httpHostHeader: monand.tech
+  - originServerName: monand.tech
   - hostname: monand.tech
     service: https://traefik
   - service: http_status:404

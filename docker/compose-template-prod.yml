@@ -1,5 +1,6 @@
 services:
   backend:
+    depends_on: [traefik]
     image: project-base/app:${app-version}
     restart: unless-stopped
     environment:
@@ -8,7 +9,7 @@ services:
       - 8000
     labels:
       - traefik.enable=true
-      - traefik.http.routers.backend.rule=Host(`backend.local`)
+      - traefik.http.routers.backend.rule=Host(`monand.tech`)
       - traefik.http.routers.backend.entrypoints=websecure
       - traefik.http.routers.backend.entrypoints=web
       - traefik.http.routers.backend.tls=true
@@ -30,17 +31,18 @@ services:
       - --providers.docker.exposedbydefault=false
       - --entryPoints.web.address=:80
       - --entrypoints.websecure.address=:443
-      # -       - traefik.http.routers.backend.tls=true
-      #      - --certificatesresolvers.cloudflare.acme.dnschallenge=true
-      #      - --certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare
+      - --providers.file.filename=/certificates.yaml
+    deploy:
+      mode: global
     ports:
       - 80:80
+      - 443:443
       - 8080:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./tunnel/traefik.yaml:/traefik.yaml
       - ./tunnel/certificates.yaml:/certificates.yaml
-      - ./tunnel/origin-certificates/:/origin-certificates
+      - ./tunnel/certificates/:/certificates
+#      - .tunnel/certificates/origin:/certificates/origin
 networks:
   default:
     driver: bridge
