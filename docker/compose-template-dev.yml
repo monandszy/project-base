@@ -4,12 +4,16 @@ services:
     image: project-base/app:${app-version}
     environment:
       - SPRING_PROFILES_ACTIVE=dev
+#    labels:
+#      - "traefik.http.routers.backend.rule=Host(`localhost`)"
   traefik:
     image: traefik:${traefik-version}
     command:
       #- "--log.level=DEBUG"
       - "--api.insecure=true"
       - "--providers.docker"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.web.address=:80"
     ports:
       - "80:80"
       - "8080:8080"
@@ -20,7 +24,10 @@ services:
     depends_on: [traefik]
     image: traefik/whoami
     labels:
-      - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`10.0.1.34`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+      - "traefik.http.services.whoami.loadbalancer.server.port=80"
 networks:
   default:
     driver: bridge
