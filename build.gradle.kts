@@ -118,7 +118,7 @@ tasks {
          exec {
             commandLine("sh", "-c", "\"git-flow release finish -pS -m $version '$version'\"")
          }
-         changeSuffix("-SNAPSHOT")
+         bumpRelease()
       }
    }
 
@@ -130,7 +130,7 @@ tasks {
          exec {
             commandLine("sh", "-c", "\"git-flow hotfix start $branch\"")
          }
-         changeSuffix("-hotfix")
+         changeSuffix("hotfix")
       }
    }
 
@@ -248,6 +248,8 @@ tasks {
       dependsOn("generateProdCompose")
       doLast {
          composeUp("prod", isForceRecreate.toString())
+         waitUntilRunning("prod-tunnel-1")
+         runTunnel()
       }
    }
 
