@@ -238,7 +238,7 @@ tasks {
       dependsOn("app:docker")
       dependsOn("generateDevCompose")
       doLast {
-         composeUp("dev", isForceRecreate.toString())
+         composeUp("dev", false.toString())
       }
    }
 
@@ -247,7 +247,7 @@ tasks {
       dependsOn("app:docker")
       dependsOn("generateProdCompose")
       doLast {
-         composeUp("prod", isForceRecreate.toString())
+         composeUp("prod", false.toString())
          waitUntilRunning("prod-tunnel-1")
          runTunnel()
       }
