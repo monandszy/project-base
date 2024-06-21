@@ -231,10 +231,10 @@ tasks {
             "-d",
 //            "--no-deps",
 //            "--scale", "backend=2",
+//            "--no-recreate", "backend",
             "--remove-orphans",
          )
       }
-//            "--no-recreate", "backend",
    }
 
    register("composeDevUp") {

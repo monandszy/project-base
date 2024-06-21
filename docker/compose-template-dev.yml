@@ -1,8 +1,9 @@
 services:
-#  backend:
-#    image: project-base/app:${app-version}
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=dev
+  backend:
+    depends_on: [traefik]
+    image: project-base/app:${app-version}
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
   traefik:
     image: traefik:${traefik-version}
     command:
@@ -20,8 +21,7 @@ services:
     image: traefik/whoami
     labels:
       - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
-
-#networks:
-#  default:
-#    driver: bridge
-#    name: dev
+networks:
+  default:
+    driver: bridge
+    name: dev
