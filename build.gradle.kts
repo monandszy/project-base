@@ -217,7 +217,7 @@ tasks {
       }
    }
 
-   fun composeUp(projectName: String, forceRecreate: String) {
+   fun composeUp(projectName: String) {
       exec {
          workingDir("./docker/")
          commandLine(
@@ -227,27 +227,22 @@ tasks {
             "-d",
             "--remove-orphans",
          )
-         if (forceRecreate.toBoolean()) {
-            args("--force-recreate", "backend")
-         }
       }
    }
 
    register("composeDevUp") {
-      val isForceRecreate = project.properties["force"] ?: "true"
       dependsOn("app:docker")
       dependsOn("generateDevCompose")
       doLast {
-         composeUp("dev", false.toString())
+         composeUp("dev")
       }
    }
 
    register("composeProdUp") {
-      val isForceRecreate = project.properties["force"] ?: "true"
       dependsOn("app:docker")
       dependsOn("generateProdCompose")
       doLast {
-         composeUp("prod", false.toString())
+         composeUp("prod")
          waitUntilRunning("prod-tunnel-1")
          runTunnel()
       }
