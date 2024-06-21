@@ -10,6 +10,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.backend.rule=Host(`backend.local`)
       - traefik.http.routers.backend.entrypoints=websecure
+      - traefik.http.routers.backend.entrypoints=web
       - traefik.http.routers.backend.tls=true
       - traefik.http.services.backend.loadbalancer.server.port=8000
   tunnel:
@@ -23,19 +24,23 @@ services:
     image: traefik:${traefik-version}
     restart: unless-stopped
     command:
-      - --providers.docker=true
+      - --log.level=DEBUG
+      - --api.insecure=true
+      - --providers.docker
       - --providers.docker.exposedbydefault=false
+      - --entryPoints.web.address=:80
       - --entrypoints.websecure.address=:443
-      - --certificatesresolvers.cloudflare.acme.dnschallenge=true
-      - --certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare
+      # -       - traefik.http.routers.backend.tls=true
+      #      - --certificatesresolvers.cloudflare.acme.dnschallenge=true
+      #      - --certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare
     ports:
-      - 443:443
+      - 80:80
       - 8080:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-#      - ./tunnel/traefik.yaml:/traefik.yaml
-#      - ./tunnel/certificates.yaml:/certificates.yaml
-#      - ./tunnel/origin-certificates/:/origin-certificates
+      - ./tunnel/traefik.yaml:/traefik.yaml
+      - ./tunnel/certificates.yaml:/certificates.yaml
+      - ./tunnel/origin-certificates/:/origin-certificates
 networks:
   default:
     driver: bridge
