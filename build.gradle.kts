@@ -184,9 +184,8 @@ tasks {
    register("generateProdCompose") {
       doLast {
          val versionMap = loadFile(file("docker/versions"))
-         val tokenMap = loadFile(file("docker/tokens"))
          val templateFile = file("docker/compose-template-prod.yml")
-         generateCompose(versionMap + tokenMap, templateFile)
+         generateCompose(versionMap, templateFile)
       }
    }
 

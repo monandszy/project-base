@@ -63,6 +63,7 @@ tasks {
                "build",
                "--build-arg", "EXTRACTED=build/extracted",
                "-t", "${rootProject.name}/${project.name}:$version",
+               "-q",
                "."
             )
          }

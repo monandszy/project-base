@@ -2,7 +2,7 @@ tunnel: app-tunnel
 no-autoupdate: false
 ingress:
   - hostname: monand.tech
-    service: backend:8080
+    service: https://traefik
   - service: http_status:404
 warp-routing:
   enabled: false
