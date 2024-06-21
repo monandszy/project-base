@@ -208,28 +208,16 @@ tasks {
       }
    }
 
-   fun runTunnel() {
-      val command = listOf(
-         "docker", "exec", "--user=0", "docker-tunnel-1",
-         "cloudflared", "tunnel", "--config", "/etc/cloudflared/conf.yml",
-         "run", "app-tunnel"
-      )
-      val process = ProcessBuilder(command).start()
-      process.waitFor(10L, TimeUnit.SECONDS)
-      process.destroyForcibly()
-      println("Tunnel Started!")
-   }
-
    fun composeUp(projectName: String) {
       exec {
          workingDir("./docker/")
          commandLine(
             "docker", "compose",
             "-p", projectName,
-            "--force-recreate backend",
             "up",
             "-d",
             "--remove-orphans",
+            "--force-recreate", "backend",
          )
       }
    }
@@ -248,7 +236,6 @@ tasks {
       doLast {
          composeUp("prod")
          waitUntilRunning("prod-tunnel-1")
-         runTunnel()
       }
    }
    register("composeDevDown") {
