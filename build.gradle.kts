@@ -225,15 +225,16 @@ tasks {
       exec {
          workingDir("./docker/")
          commandLine(
-            "docker-compose",
+            "docker", "compose",
             "-p", projectName,
-//            "--scale", "server=2",
-//            "--no-recreate", "server",
             "up",
-//            "--no-deps",
             "-d",
+//            "--no-deps",
+//            "--scale", "backend=2",
+            "--remove-orphans",
          )
       }
+//            "--no-recreate", "backend",
    }
 
    register("composeDevUp") {

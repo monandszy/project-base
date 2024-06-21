@@ -3,8 +3,6 @@ services:
     image: project-base/app:${app-version}
     environment:
       - SPRING_PROFILES_ACTIVE=prod
-    ports:
-      - 8080:8080
   tunnel:
     image: cloudflare/cloudflared:${cloudflared-version}
     privileged: true
