@@ -1,8 +1,8 @@
 tunnel: app-tunnel
 no-autoupdate: true
 http2Origin: true
-httpHostHeader: monand.tech
-originServerName: traefik.monand.tech
+httpHostHeader: traefik.monand.tech
+originServerName: monand.tech
 ingress:
   - hostname: monand.tech
     service: 127.0.0.1
