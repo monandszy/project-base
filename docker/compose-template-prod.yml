@@ -1,6 +1,6 @@
 services:
   backend:
-    depends_on: [traefik]
+#    depends_on: [traefik]
     image: project-base/app:${app-version}
     restart: unless-stopped
     environment:
