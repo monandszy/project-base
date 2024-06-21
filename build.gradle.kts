@@ -217,7 +217,8 @@ tasks {
             "up",
             "-d",
             "--remove-orphans",
-            "--force-recreate", "backend",
+            "--force-recreate",
+            "backend",
          )
       }
    }
