@@ -226,11 +226,9 @@ tasks {
          commandLine(
             "docker", "compose",
             "-p", projectName,
+            "--force-recreate backend",
             "up",
             "-d",
-//            "--no-deps",
-//            "--scale", "backend=2",
-//            "--no-recreate", "backend",
             "--remove-orphans",
          )
       }
@@ -253,12 +251,15 @@ tasks {
          runTunnel()
       }
    }
-
-   register("composeDown") {
+   register("composeDevDown") {
       doLast{
          exec {
             commandLine("docker","compose","-p","dev","down")
          }
+      }
+   }
+   register("composeProdDown") {
+      doLast{
          exec {
             commandLine("docker","compose","-p","prod","down")
          }

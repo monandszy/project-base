@@ -6,6 +6,6 @@ docker exec --user=0 prod-tunnel-1 cloudflared tunnel --config /etc/cloudflared/
 
 docker exec --user=0 prod-tunnel-1 cloudflared tunnel route dns app-tunnel monand.tech
 
-docker exec --user=0 prod-tunnel-1 cloudflared tunnel --config /etc/cloudflared/conf.yml run app-tunnel
+docker exec -e TUNNEL_ORIGIN_CERT=/etc/cloudflared/cert.pem --user=0 prod-tunnel-1 cloudflared tunnel --config /etc/cloudflared/conf.yml run app-tunnel
 
 // -e TUNNEL_ORIGIN_CERT=/etc/cloudflared/cert.pem
