@@ -208,6 +208,15 @@ tasks {
       }
    }
 
+   fun runTunnel() {
+      exec {
+         workingDir("./docker/tunnel/")
+         commandLine(
+            "bash", "run_tunnel.sh", "&"
+         )
+      }
+   }
+
    fun composeUp(projectName: String, forceRecreate: String) {
       exec {
          workingDir("./docker/")
