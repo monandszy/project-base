@@ -208,15 +208,6 @@ tasks {
       }
    }
 
-   fun runTunnel() {
-      exec {
-         workingDir("./docker/tunnel/")
-         commandLine(
-            "bash", "run_tunnel.sh", "&>/dev/null", "&"
-         )
-      }
-   }
-
    fun composeUp(projectName: String) {
       exec {
          workingDir("./docker/")
@@ -244,7 +235,6 @@ tasks {
       doLast {
          composeUp("prod")
          waitUntilRunning("prod-tunnel-1")
-         runTunnel()
       }
    }
 
