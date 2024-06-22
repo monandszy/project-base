@@ -112,6 +112,7 @@ tasks {
    }
 
    // assumes one release branch at a time. switch to branch when running.
+   // if fails because of merge conflicts to dev, accept master's version, commit, and run again (version should bump)
    register("releaseFinish") {
       doLast {
          changeSuffix("")
