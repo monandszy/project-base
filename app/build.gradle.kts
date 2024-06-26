@@ -1,7 +1,4 @@
-import nebula.plugin.contacts.Contact
 import org.springframework.boot.gradle.tasks.bundling.BootJar
-import java.io.ByteArrayOutputStream
-import java.nio.file.Files
 
 plugins {
    application
