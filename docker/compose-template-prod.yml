@@ -1,3 +1,7 @@
+networks:
+  default:
+    driver: bridge
+    name: prod
 services:
   backend:
     image: project-base/app:${app-version}
@@ -6,6 +10,7 @@ services:
       - SPRING_PROFILES_ACTIVE=prod
     ports:
       - 8080:8000
+      - 8000:8000
   tunnel:
     image: cloudflare/cloudflared:${cloudflared-version}
     restart: unless-stopped
@@ -13,7 +18,17 @@ services:
     entrypoint: cloudflared
     volumes:
       - ./tunnel:/etc/cloudflared
-networks:
-  default:
-    driver: bridge
-    name: prod
+  prometheus:
+    image: prom/prometheus:${prometheus-version}
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+  grafana:
+    image: grafana/grafana:${grafana-version}
+    ports:
+      - 3000:3000
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./grafana/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml

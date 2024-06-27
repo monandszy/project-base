@@ -7,11 +7,19 @@ plugins {
    checkstyle
    alias(libs.plugins.spring.boot)
    alias(libs.plugins.spring.dependency)
+//   id("org.graalvm.buildtools.native") version "0.10.2"
 }
 
 group = "code"
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 application.mainClass = "code.App"
+
+java {
+   @Suppress("UnstableApiUsage")
+   consistentResolution {
+      useCompileClasspathVersions()
+   }
+}
 
 repositories {
    mavenCentral()
@@ -23,11 +31,17 @@ dependencies {
    annotationProcessor(libs.lombok)
    testImplementation(libs.junit.jupiter)
    testRuntimeOnly(libs.junit.platform)
+   implementation("org.springframework.boot:spring-boot-starter-actuator")
+   implementation("io.micrometer:micrometer-registry-prometheus")
+   implementation("org.springframework.modulith:spring-modulith-starter-core")
+   testImplementation("org.springframework.boot:spring-boot-starter-test")
+   testImplementation("org.springframework.modulith:spring-modulith-starter-test")
+   runtimeOnly("org.springframework.modulith:spring-modulith-actuator:1.2.1")
 }
-java {
-   @Suppress("UnstableApiUsage")
-   consistentResolution {
-      useCompileClasspathVersions()
+
+dependencyManagement {
+   imports {
+      mavenBom("org.springframework.modulith:spring-modulith-bom:1.2.1")
    }
 }
 
@@ -51,6 +65,7 @@ tasks {
          "--destination", "build/extracted"
       )
    }
+
    register("docker") {
       dependsOn(getByName("extractLayers"))
       doLast {

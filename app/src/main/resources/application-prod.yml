@@ -1,1 +1,6 @@
-spring.config.activate.on-profile=prod
+spring.config.activate.on-profile: prod
+management:
+  prometheus:
+    metrics:
+      export:
+        enabled: true
