@@ -1,7 +1,7 @@
+
 import nebula.plugin.contacts.Contact
 import java.io.ByteArrayOutputStream
 import java.nio.file.Files
-import java.util.*
 
 plugins {
    id("nebula.contacts") version "6.0.0"
@@ -244,8 +244,8 @@ tasks {
       dependsOn("generateProdCompose")
       doLast {
          composeUp("prod")
-         waitUntilRunning("prod-tunnel-1")
-         runTunnel()
+//         waitUntilRunning("prod-tunnel-1")
+//         runTunnel()
       }
    }
 
