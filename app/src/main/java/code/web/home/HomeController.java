@@ -1,8 +1,6 @@
 package code.web.home;
 
-import code.App;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.modulith.Modulith;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -14,5 +12,6 @@ class HomeController {
   public String getHome() {
     return "index";
   }
+
 
 }

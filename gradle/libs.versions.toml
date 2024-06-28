@@ -18,4 +18,4 @@ spring = ["spring-web", "spring-tymeleaf"]
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot-plugin" }
-spring-dependency = { id = "io.spring.dependency-management", version.ref = "spring-dependency-plugin" }
+spring-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-plugin" }

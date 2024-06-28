@@ -21,9 +21,9 @@ management:
     metrics:
       export:
         enabled: false
-logging:
-  level:
-    org:
-      springframework:
-        boot:
-          autoconfigure=DEBUG:
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        boot:
+#          autoconfigure=DEBUG:

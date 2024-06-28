@@ -10,24 +10,54 @@ services:
       - SPRING_PROFILES_ACTIVE=prod
     ports:
       - 8080:8000
-#  tunnel:
-#    image: cloudflare/cloudflared:${cloudflared-version}
-#    restart: unless-stopped
-#    privileged: true
-#    entrypoint: cloudflared
-#    volumes:
-#      - ./tunnel:/etc/cloudflared
-#  prometheus:
-#    image: prom/prometheus:${prometheus-version}
-#    volumes:
-#      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-#    ports:
-#      - 9090:9090
-#  grafana:
-#    image: grafana/grafana:${grafana-version}
+    depends_on:
+      - otel-collector
+  tunnel:
+    image: cloudflare/cloudflared:${cloudflared-version}
+    restart: unless-stopped
+    privileged: true
+    entrypoint: cloudflared
+    volumes:
+      - ./tunnel:/etc/cloudflared
+  prometheus:
+    image: prom/prometheus:${prometheus-version}
+    restart: unless-stopped
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+  grafana:
+    image: grafana/grafana:${grafana-version}
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    environment:
+      - "GF_AUTH_DISABLE_LOGIN_FORM=true"
+      - "GF_AUTH_ANONYMOUS_ENABLED=true"
+      - "GF_AUTH_ANONYMOUS_ORG_ROLE=Admin"
+    volumes:
+      - ./grafana/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    restart: unless-stopped
+    command: --config=/etc/otel-collector-config.yaml
+    ports:
+      - 4318:4318
+      - 55681:55681
+    volumes:
+      - ./otel-collector/config.yaml:/etc/otel-collector-config.yaml
+  loki:
+    image: grafana/loki:latest
+    restart: unless-stopped
+    ports:
+      - 3100:3100
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - ./loki/loki-config.yaml:/etc/loki/local-config.yaml
+
+#  analytics:
+#    image: grafana/otel-lgtm
 #    ports:
 #      - 3000:3000
-#    environment:
-#      - GF_SECURITY_ADMIN_PASSWORD=admin
-#    volumes:
-#      - ./grafana/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+#      - 9090:9090
+#      - 4318:4318

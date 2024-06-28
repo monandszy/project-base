@@ -6,7 +6,7 @@ plugins {
    jacoco
    checkstyle
    alias(libs.plugins.spring.boot)
-   alias(libs.plugins.spring.dependency)
+   alias(libs.plugins.spring.management)
 //   id("org.graalvm.buildtools.native") version "0.10.2"
 }
 
@@ -36,12 +36,16 @@ dependencies {
    implementation("org.springframework.modulith:spring-modulith-starter-core")
    testImplementation("org.springframework.boot:spring-boot-starter-test")
    testImplementation("org.springframework.modulith:spring-modulith-starter-test")
-   runtimeOnly("org.springframework.modulith:spring-modulith-actuator:1.2.1")
+   implementation("org.springframework.modulith:spring-modulith-events-api:1.2.1")
+//   runtimeOnly("org.springframework.modulith:spring-modulith-actuator:1.2.1")
+   implementation("io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter")
 }
 
 dependencyManagement {
    imports {
       mavenBom("org.springframework.modulith:spring-modulith-bom:1.2.1")
+      mavenBom("io.opentelemetry:opentelemetry-bom:1.39.0")
+      mavenBom("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha:2.4.0-alpha")
    }
 }
 
