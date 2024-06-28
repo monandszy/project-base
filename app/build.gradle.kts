@@ -7,7 +7,6 @@ plugins {
    checkstyle
    alias(libs.plugins.spring.boot)
    alias(libs.plugins.spring.management)
-//   id("org.graalvm.buildtools.native") version "0.10.2"
 }
 
 group = "code"
@@ -26,22 +25,14 @@ repositories {
 }
 
 dependencies {
-   implementation(libs.bundles.spring)
+   implementation(libs.bundles.spring.web)
+   implementation(libs.bundles.spring.modulith)
    compileOnly(libs.lombok)
    annotationProcessor(libs.lombok)
    testImplementation(libs.junit.jupiter)
    testRuntimeOnly(libs.junit.platform)
-   implementation("org.springframework.modulith:spring-modulith-starter-core")
-   testImplementation("org.springframework.boot:spring-boot-starter-test")
-   testImplementation("org.springframework.modulith:spring-modulith-starter-test")
-   implementation("org.springframework.modulith:spring-modulith-events-api:1.2.1")
-//   runtimeOnly("org.springframework.modulith:spring-modulith-actuator:1.2.1")
-   implementation("org.springframework.boot:spring-boot-starter-actuator")
-   implementation("io.micrometer:micrometer-registry-prometheus")
-   implementation("com.github.loki4j:loki-logback-appender:1.5.1")
-
-   implementation ("io.micrometer:micrometer-tracing-bridge-brave")
-   implementation ("io.zipkin.reporter2:zipkin-reporter-brave")
+   testImplementation(libs.bundles.spring.test)
+   implementation(libs.bundles.observability)
 }
 
 dependencyManagement {
@@ -49,6 +40,7 @@ dependencyManagement {
       mavenBom("org.springframework.modulith:spring-modulith-bom:1.2.1")
    }
 }
+
 
 tasks {
 
@@ -72,6 +64,7 @@ tasks {
    }
 
    register("docker") {
+      dependsOn("bootJar")
       dependsOn(getByName("extractLayers"))
       doLast {
          exec {
@@ -79,6 +72,7 @@ tasks {
                "docker",
                "build",
                "--build-arg", "EXTRACTED=build/extracted",
+//               "--build-arg", "JAR=${getByName<BootJar>("bootJar").archiveFileName.get()}",
                "-t", "${rootProject.name}/${project.name}:$version",
                "-q",
                "."
