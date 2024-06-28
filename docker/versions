@@ -8,3 +8,7 @@ traefik-version=v3.0.0
 prometheus-version=v2.45.6
 # https://hub.docker.com/r/grafana/grafana
 grafana-version=9.5.20
+# https://hub.docker.com/r/grafana/loki
+loki-version=2.9.8
+# https://hub.docker.com/r/grafana/tempo
+tempo-version=2.4.2

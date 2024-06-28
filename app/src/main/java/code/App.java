@@ -1,6 +1,5 @@
 package code;
 
-import io.opentelemetry.instrumentation.spring.autoconfigure.EnableOpenTelemetry;
 import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,14 +19,8 @@ import java.time.ZoneOffset;
 import java.util.TimeZone;
 
 
-@EnableOpenTelemetry
 @Modulithic
 @SpringBootApplication
-//@ComponentScans({
-//    @ComponentScan(basePackages = "code", includeFilters = {@Filter(Component.class)}),
-//    @ComponentScan(basePackages = "code.web", includeFilters = {@Filter(Controller.class)}),
-//    @ComponentScan(basePackages = "code.modules", includeFilters = {@Filter(Service.class), @Filter(Repository.class),}),
-//})
 public class App extends SpringBootServletInitializer {
 
   public static void main(String[] args) {

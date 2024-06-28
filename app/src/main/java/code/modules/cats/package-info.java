@@ -5,4 +5,4 @@
  * </p>
  */
 @org.springframework.modulith.ApplicationModule(displayName = "catModule")
-package code.modules.example;
+package code.modules.cats;

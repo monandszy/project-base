@@ -31,21 +31,22 @@ dependencies {
    annotationProcessor(libs.lombok)
    testImplementation(libs.junit.jupiter)
    testRuntimeOnly(libs.junit.platform)
-   implementation("org.springframework.boot:spring-boot-starter-actuator")
-   implementation("io.micrometer:micrometer-registry-prometheus")
    implementation("org.springframework.modulith:spring-modulith-starter-core")
    testImplementation("org.springframework.boot:spring-boot-starter-test")
    testImplementation("org.springframework.modulith:spring-modulith-starter-test")
    implementation("org.springframework.modulith:spring-modulith-events-api:1.2.1")
 //   runtimeOnly("org.springframework.modulith:spring-modulith-actuator:1.2.1")
-   implementation("io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter")
+   implementation("org.springframework.boot:spring-boot-starter-actuator")
+   implementation("io.micrometer:micrometer-registry-prometheus")
+   implementation("com.github.loki4j:loki-logback-appender:1.5.1")
+
+   implementation ("io.micrometer:micrometer-tracing-bridge-brave")
+   implementation ("io.zipkin.reporter2:zipkin-reporter-brave")
 }
 
 dependencyManagement {
    imports {
       mavenBom("org.springframework.modulith:spring-modulith-bom:1.2.1")
-      mavenBom("io.opentelemetry:opentelemetry-bom:1.39.0")
-      mavenBom("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha:2.4.0-alpha")
    }
 }
 

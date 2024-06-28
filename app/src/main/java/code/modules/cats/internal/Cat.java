@@ -1,4 +1,4 @@
-package code.modules.example.internal;
+package code.modules.cats.internal;
 
 import lombok.Builder;
 import lombok.Value;
