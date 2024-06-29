@@ -153,8 +153,7 @@ tasks {
       }
    }
 
-   fun generateCompose(map: Map<String, String>, templateFile: File) {
-      val outputFile = file("docker/docker-compose.yml")
+   fun generateCompose(map: Map<String, String>, templateFile: File, outputFile: File) {
       var template = templateFile.readText()
       map.forEach { (key, value) ->
          template = template.replace("\${$key}", value)
@@ -176,16 +175,15 @@ tasks {
    register("generateDevCompose") {
       doLast {
          val versionMap = loadFile(file("docker/versions"))
-         val templateFile = file("docker/compose-template-dev.yml")
-         generateCompose(versionMap, templateFile)
+         generateCompose(versionMap, file("docker/compose-template-dev.yml"), file("docker/compose-dev.yml"))
+         generateCompose(versionMap, file("docker/compose-template-observability.yml"), file("docker/compose-observability.yml"))
       }
    }
-
    register("generateProdCompose") {
       doLast {
          val versionMap = loadFile(file("docker/versions"))
-         val templateFile = file("docker/compose-template-prod.yml")
-         generateCompose(versionMap, templateFile)
+         generateCompose(versionMap, file("docker/compose-template-prod.yml"), file("docker/compose-prod.yml"))
+         generateCompose(versionMap, file("docker/compose-template-observability.yml"), file("docker/compose-observability.yml"))
       }
    }
 
@@ -223,6 +221,7 @@ tasks {
          commandLine(
             "docker", "compose",
             "-p", projectName,
+            "-f", "compose-$projectName.yml",
             "up",
             "-d",
             "--remove-orphans",
@@ -236,10 +235,33 @@ tasks {
          commandLine(
             "docker", "compose",
             "-p", projectName,
+            "-f", "compose-$projectName.yml",
             "up",
             "-d",
             "--force-recreate", "backend"
          )
+      }
+   }
+
+   fun composeObservabilityUp() {
+      exec {
+         workingDir("./docker/")
+         commandLine(
+            "docker", "compose",
+            "-p", "observability",
+            "-f", "compose-observability.yml",
+            "up",
+            "-d",
+            "--no-recreate"
+         )
+      }
+   }
+
+   register("stopDevBackend") {
+      doLast {
+         exec {
+            commandLine("docker", "stop", "dev-backend-1")
+         }
       }
    }
 
@@ -260,6 +282,8 @@ tasks {
       dependsOn("app:docker")
       dependsOn("generateDevCompose")
       doLast {
+         composeObservabilityUp()
+         waitUntilRunning("observability-grafana-1")
          composeUp("dev")
       }
    }
@@ -268,6 +292,8 @@ tasks {
       dependsOn("app:docker")
       dependsOn("generateProdCompose")
       doLast {
+         composeObservabilityUp()
+         waitUntilRunning("observability-grafana-1")
          composeUp("prod")
          waitUntilRunning("prod-tunnel-1")
          runTunnel()
@@ -285,6 +311,13 @@ tasks {
       doLast {
          exec {
             commandLine("docker", "compose", "-p", "prod", "down")
+         }
+      }
+   }
+   register("composeObservabilityDown") {
+      doLast {
+         exec {
+            commandLine("docker", "compose", "-p", "observability", "down")
          }
       }
    }

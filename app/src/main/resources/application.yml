@@ -5,8 +5,6 @@ server:
 spring:
   main:
     banner-mode: off
-  application:
-    name: app
   modulith:
     detection-strategy: explicitly-annotated
 management:
@@ -21,9 +19,16 @@ management:
     metrics:
       export:
         enabled: false
-#logging:
-#  level:
-#    org:
-#      springframework:
-#        boot:
-#          autoconfigure=DEBUG:
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://tempo:9411/api/v2/spans

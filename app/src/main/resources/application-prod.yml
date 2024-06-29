@@ -1,16 +1,4 @@
 spring.config.activate.on-profile: prod
-management:
-  prometheus:
-    metrics:
-      export:
-        enabled: true
-  metrics:
-    tags:
-      application: ${spring.application.name}
-
-  tracing:
-    sampling:
-      probability: 1.0
-  zipkin:
-    tracing:
-      endpoint: http://tempo:9411/api/v2/spans
+spring:
+  application:
+    name: app-prod

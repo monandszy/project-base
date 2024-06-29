@@ -22,18 +22,36 @@ java {
 
 repositories {
    mavenCentral()
+   maven {
+      url = uri("https://repo.spring.io/release")
+   }
 }
 
 dependencies {
+
    implementation(libs.bundles.spring.web)
    implementation(libs.bundles.spring.modulith)
+   implementation(libs.bundles.observability)
+//   implementation("org.springframework.boot:spring-boot-configuration-processor")
+//   implementation("org.springframework.session:spring-session-core")
+//   implementation("org.springframework.boot:spring-boot-starter-security")
+//   implementation("org.liquibase:liquibase-core")
+//   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+//   implementation("org.springframework.modulith:spring-modulith-starter-jpa")
+//   implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+//   testImplementation("org.testcontainers:junit-jupiter")
+//   testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+//   testImplementation("org.springframework.security:spring-security-test")
+//   testImplementation("org.springframework.boot:spring-boot-testcontainers")
+//   testImplementation("org.testcontainers:postgresql")
    compileOnly(libs.lombok)
    annotationProcessor(libs.lombok)
+
    testImplementation(libs.junit.jupiter)
+   "developmentOnly"("org.springframework.boot:spring-boot-devtools")
+   runtimeOnly("org.postgresql:postgresql")
    testRuntimeOnly(libs.junit.platform)
    testImplementation(libs.bundles.spring.test)
-   implementation(libs.bundles.observability)
-   compileOnly("org.springframework.boot:spring-boot-devtools")
 }
 
 dependencyManagement {

@@ -2,6 +2,8 @@ networks:
   default:
     driver: bridge
     name: prod
+  observability:
+    external: true
 services:
   backend:
     image: project-base/app:${app-version}
@@ -10,7 +12,8 @@ services:
       - "SPRING_PROFILES_ACTIVE=prod"
     ports:
       - "8080:8000"
-    depends_on: [loki]
+    networks:
+      - observability
   tunnel:
     image: cloudflare/cloudflared:${cloudflared-version}
     restart: unless-stopped
@@ -18,39 +21,3 @@ services:
     volumes:
       - ./tunnel:/etc/cloudflared
     depends_on: [backend]
-  prometheus:
-    image: prom/prometheus:${prometheus-version}
-    restart: unless-stopped
-    volumes:
-      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./observability/prometheus:/prometheus
-    ports:
-      - "9090:9090"
-  grafana:
-    image: grafana/grafana:${grafana-version}
-    restart: unless-stopped
-    environment:
-      - "GF_SECURITY_ADMIN_PASSWORD=admin"
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./observability/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
-      - ./observability/grafana:/var/lib/grafana
-  loki:
-    image: grafana/loki:${loki-version}
-    restart: unless-stopped
-    command: "-config.file=/etc/loki/local-config.yaml"
-    ports:
-      - "3100:3100"
-    volumes:
-      - ./observability/loki-config.yaml:/etc/loki/local-config.yaml
-      - ./observability/loki/:/loki/
-  tempo:
-    image: grafana/tempo:${tempo-version}
-    command: "-config.file=/etc/tempo.yaml"
-    volumes:
-      - ./observability/tempo.yml:/etc/tempo.yaml
-      - ./observability/tempo/:/tmp/tempo
-    ports:
-      - "3110:3100"  # Tempo
-      - "9411:9411" # zipkin
