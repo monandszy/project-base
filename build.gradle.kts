@@ -1,4 +1,3 @@
-
 import nebula.plugin.contacts.Contact
 import java.io.ByteArrayOutputStream
 import java.nio.file.Files
@@ -231,6 +230,32 @@ tasks {
       }
    }
 
+   fun restartBackend(projectName: String) {
+      exec {
+         workingDir("./docker/")
+         commandLine(
+            "docker", "compose",
+            "-p", projectName,
+            "up",
+            "-d",
+            "--force-recreate", "backend"
+         )
+      }
+   }
+
+   register("restartDevBackend") {
+      dependsOn("app:docker")
+      doLast {
+         restartBackend("dev")
+      }
+   }
+   register("restartProdBackend") {
+      dependsOn("app:docker")
+      doLast {
+         restartBackend("prod")
+      }
+   }
+
    register("composeDevUp") {
       dependsOn("app:docker")
       dependsOn("generateDevCompose")
@@ -244,22 +269,22 @@ tasks {
       dependsOn("generateProdCompose")
       doLast {
          composeUp("prod")
-//         waitUntilRunning("prod-tunnel-1")
-//         runTunnel()
+         waitUntilRunning("prod-tunnel-1")
+         runTunnel()
       }
    }
 
    register("composeDevDown") {
-      doLast{
+      doLast {
          exec {
-            commandLine("docker","compose","-p","dev","down")
+            commandLine("docker", "compose", "-p", "dev", "down")
          }
       }
    }
    register("composeProdDown") {
-      doLast{
+      doLast {
          exec {
-            commandLine("docker","compose","-p","prod","down")
+            commandLine("docker", "compose", "-p", "prod", "down")
          }
       }
    }

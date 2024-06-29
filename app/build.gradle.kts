@@ -33,6 +33,7 @@ dependencies {
    testRuntimeOnly(libs.junit.platform)
    testImplementation(libs.bundles.spring.test)
    implementation(libs.bundles.observability)
+   compileOnly("org.springframework.boot:spring-boot-devtools")
 }
 
 dependencyManagement {
@@ -40,7 +41,6 @@ dependencyManagement {
       mavenBom("org.springframework.modulith:spring-modulith-bom:1.2.1")
    }
 }
-
 
 tasks {
 
@@ -72,7 +72,6 @@ tasks {
                "docker",
                "build",
                "--build-arg", "EXTRACTED=build/extracted",
-//               "--build-arg", "JAR=${getByName<BootJar>("bootJar").archiveFileName.get()}",
                "-t", "${rootProject.name}/${project.name}:$version",
                "-q",
                "."
@@ -80,6 +79,7 @@ tasks {
          }
       }
    }
+
 
    test {
       useJUnitPlatform()

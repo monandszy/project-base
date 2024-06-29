@@ -6,7 +6,6 @@ junit-jupiter = "5.10.2"
 lombok = "1.18.32"
 spring-boot-plugin = "3.2.2"
 spring-dependency-plugin = "1.1.5"
-graalVM-plugin = "0.10.2"
 spring-modulith = "1.2.1"
 loki-logback-appender = "1.5.1"
 
@@ -33,7 +32,6 @@ spring-web = ["spring-web", "spring-tymeleaf"]
 spring-modulith = ["spring-modulith-core", "spring-modulith-events"]
 spring-test = ["sprint-test", "sprint-modulith-test"]
 observability = ["spring-actuator", "micrometer-prometheus", "micrometer-brave", "zipkin", "loki-logging"]
-
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot-plugin" }

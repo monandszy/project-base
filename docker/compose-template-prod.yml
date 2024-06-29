@@ -26,7 +26,6 @@ services:
       - ./observability/prometheus:/prometheus
     ports:
       - "9090:9090"
-    depends_on: [backend]
   grafana:
     image: grafana/grafana:${grafana-version}
     restart: unless-stopped
