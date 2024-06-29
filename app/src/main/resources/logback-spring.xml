@@ -1,10 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
   <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
-  <root level="info">
+  <springProfile name="dev">
+    <property name="LOG_LEVEL" value="DEBUG" />
+    <property name="LOKI_URL" value="http://loki:3100/loki/api/v1/push" />
+  </springProfile>
+
+  <springProfile name="prod">
+    <property name="LOG_LEVEL" value="INFO" />
+    <property name="LOKI_URL" value="http://loki:3100/loki/api/v1/push" />
+  </springProfile>
+
+  <springProfile name="view">
+    <property name="LOG_LEVEL" value="INFO" />
+    <property name="LOKI_URL" value="http://localhost:3100/loki/api/v1/push" />
+  </springProfile>
+
+  <springProperty name="name" source="spring.application.name" />
+  <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+    <http>
+      <url>${LOKI_URL}</url>
+    </http>
+    <format>
+      <label>
+        <pattern>app=${name},host=${HOSTNAME},level=%level</pattern>
+        <readMarkers>true</readMarkers>
+      </label>
+      <message>
+        <pattern>
+          {
+          "level":"%level",
+          "class":"%logger{36}",
+          "thread":"%thread",
+          "message": "%message",
+          "requestId": "%X{X-Request-ID}"
+          }
+        </pattern>
+      </message>
+    </format>
+  </appender>
+
+  <root level="${LOG_LEVEL}">
     <appender-ref ref="CONSOLE"/>
+    <appender-ref ref="LOKI"/>
   </root>
 
 </configuration>

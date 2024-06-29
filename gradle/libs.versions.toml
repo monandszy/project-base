@@ -6,6 +6,8 @@ junit-jupiter = "5.10.2"
 lombok = "1.18.32"
 spring-boot-plugin = "3.2.2"
 spring-dependency-plugin = "1.1.5"
+spring-modulith = "1.2.1"
+loki-logback-appender = "1.5.1"
 
 [libraries]
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
@@ -13,9 +15,24 @@ junit-platform = { module = "org.junit.platform:junit-platform-launcher" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 spring-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-tymeleaf = { module = "org.springframework.boot:spring-boot-starter-thymeleaf" }
+spring-modulith-core = { module = "org.springframework.modulith:spring-modulith-starter-core" }
+spring-modulith-events = { module = "org.springframework.modulith:spring-modulith-events-api", version.ref = "spring-modulith" }
+sprint-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+sprint-modulith-test = { module = "org.springframework.modulith:spring-modulith-starter-test" }
+#(runtimeOnly) Strange autoconfiguration errors in docker environments, disabled until absolutely needed
+#spring-moudlith-actuator = { module = "org.springframework.modulith:spring-modulith-actuator", version.ref = "spring-modulith" }
+spring-actuator = {module = "org.springframework.boot:spring-boot-starter-actuator"}
+micrometer-prometheus = {module = "io.micrometer:micrometer-registry-prometheus"}
+micrometer-brave = {module = "io.micrometer:micrometer-tracing-bridge-brave"}
+zipkin = {module = "io.zipkin.reporter2:zipkin-reporter-brave"}
+loki-logging = {module = "com.github.loki4j:loki-logback-appender", version.ref = "loki-logback-appender"}
+
 [bundles]
-spring = ["spring-web", "spring-tymeleaf"]
+spring-web = ["spring-web", "spring-tymeleaf"]
+spring-modulith = ["spring-modulith-core", "spring-modulith-events"]
+spring-test = ["sprint-test", "sprint-modulith-test"]
+observability = ["spring-actuator", "micrometer-prometheus", "micrometer-brave", "zipkin", "loki-logging"]
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot-plugin" }
-spring-dependency = { id = "io.spring.dependency-management", version.ref = "spring-dependency-plugin" }
+spring-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-plugin" }

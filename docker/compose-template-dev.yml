@@ -1,30 +1,27 @@
-services:
-  backend:
-    depends_on: [traefik]
-    image: project-base/app:${app-version}
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev
-    ports:
-      - 8000
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.backend.rule=Host(`10.0.1.34`)
-      - traefik.http.routers.backend.entrypoints=web
-      - traefik.http.services.backend.loadbalancer.server.port=8000
-  traefik:
-    image: traefik:${traefik-version}
-    command:
-      - --log.level=DEBUG
-      - --api.insecure=true
-      - --providers.docker
-      - --providers.docker.exposedbydefault=false
-      - --entryPoints.web.address=:80
-    ports:
-      - 80:80
-      - 8001:8080
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
 networks:
   default:
     driver: bridge
     name: dev
+  observability:
+    external: true
+services:
+  backend:
+    image: project-base/app:${app-version}
+    restart: unless-stopped
+    environment:
+      - "SPRING_PROFILES_ACTIVE=dev"
+    ports:
+      - "8000"
+    networks:
+      - observability
+  caddy:
+    image: caddy:${caddy-version}
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/data:/data
+      - ./caddy/config:/config

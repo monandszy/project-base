@@ -1,19 +1,23 @@
+networks:
+  default:
+    driver: bridge
+    name: prod
+  observability:
+    external: true
 services:
   backend:
     image: project-base/app:${app-version}
     restart: unless-stopped
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
+      - "SPRING_PROFILES_ACTIVE=prod"
     ports:
-      - 8080:8000
+      - "8080:8000"
+    networks:
+      - observability
   tunnel:
     image: cloudflare/cloudflared:${cloudflared-version}
     restart: unless-stopped
-    privileged: true
-    entrypoint: cloudflared
+    entrypoint: "cloudflared"
     volumes:
       - ./tunnel:/etc/cloudflared
-networks:
-  default:
-    driver: bridge
-    name: prod
+    depends_on: [backend]

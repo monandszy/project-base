@@ -5,3 +5,30 @@ server:
 spring:
   main:
     banner-mode: off
+  modulith:
+    detection-strategy: explicitly-annotated
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  defaults:
+    metrics:
+      export:
+        enabled: false
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://tempo:9411/api/v2/spans

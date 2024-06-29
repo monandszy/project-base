@@ -1,6 +1,12 @@
 # https://hub.docker.com/r/cloudflare/cloudflared
 cloudflared-version=2024.6.0
 # https://hub.docker.com/_/caddy
-# caddy-version=2.8.4-alpine
-# https://hub.docker.com/_/traefik
-traefik-version=v3.0.0
+caddy-version=2.8.4-alpine
+# https://hub.docker.com/r/prom/prometheus/
+prometheus-version=v2.45.6
+# https://hub.docker.com/r/grafana/grafana
+grafana-version=9.5.20
+# https://hub.docker.com/r/grafana/loki
+loki-version=2.9.8
+# https://hub.docker.com/r/grafana/tempo
+tempo-version=2.4.2

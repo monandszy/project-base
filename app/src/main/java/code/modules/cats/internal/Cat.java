@@ -1,10 +1,10 @@
-package code;
+package code.modules.cats.internal;
 
 import lombok.Builder;
 import lombok.Value;
 
 @Builder
 @Value
-public class Cat {
+class Cat {
   String name;
 }
