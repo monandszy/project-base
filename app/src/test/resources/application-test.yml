@@ -1,1 +1,3 @@
-otel.sdk.disabled: true
+jpa:
+  hibernate:
+    ddl-auto: validate
