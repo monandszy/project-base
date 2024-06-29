@@ -1,7 +1,7 @@
+
 import nebula.plugin.contacts.Contact
 import java.io.ByteArrayOutputStream
 import java.nio.file.Files
-import java.util.*
 
 plugins {
    id("nebula.contacts") version "6.0.0"
@@ -91,7 +91,6 @@ tasks {
          val branch = project.properties["branch"] ?: throw GradleException("-Pbranch=name not provided")
          switch("feature/$branch")
          switch("dev")
-         pull()
          bumpRelease()
          exec {
             commandLine("sh", "-c", "\"git-flow feature finish -kS $branch\"")
