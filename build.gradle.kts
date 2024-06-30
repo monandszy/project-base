@@ -27,8 +27,13 @@ tasks {
    }
 
    fun pull() {
-      exec {
-         commandLine("git", "pull", "-q")
+      try {
+         exec {
+            commandLine("git", "pull", "-q")
+            isIgnoreExitValue = true
+         }
+      } catch (e: Exception) {
+         logger.warn("Git pull failed: ${e.message}")
       }
    }
 
@@ -78,8 +83,8 @@ tasks {
    register("featureStart") {
       doLast {
          switch("dev")
-         val branch = project.properties["branch"] ?: throw GradleException("-Pbranch=name not provided")
          pull()
+         val branch = project.properties["branch"] ?: throw GradleException("-Pbranch=name not provided")
          exec {
             commandLine("sh", "-c", "\"git-flow feature start $branch\"")
          }
@@ -91,6 +96,7 @@ tasks {
          val branch = project.properties["branch"] ?: throw GradleException("-Pbranch=name not provided")
          switch("feature/$branch")
          switch("dev")
+         pull()
          bumpRelease()
          exec {
             commandLine("sh", "-c", "\"git-flow feature finish -kS $branch\"")
@@ -101,7 +107,6 @@ tasks {
    register("releaseStart") {
       doLast {
          switch("dev")
-         pull()
          changeSuffix("rc")
          push()
          exec {
