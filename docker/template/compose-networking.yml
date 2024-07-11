@@ -1,0 +1,27 @@
+networks:
+  default:
+    driver: bridge
+    name: networking
+  observability:
+    external: true
+  data:
+    external: true
+services:
+  caddy:
+    image: caddy:${caddy-version}
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+  tunnel:
+    image: cloudflare/cloudflared:${cloudflared-version}
+    restart: unless-stopped
+    entrypoint: "cloudflared"
+    volumes:
+      - ./tunnel:/etc/cloudflared
+    depends_on: [ backend ]

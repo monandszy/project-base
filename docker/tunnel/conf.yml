@@ -2,7 +2,7 @@ tunnel: app-tunnel
 no-autoupdate: true
 ingress:
   - hostname: monand.tech
-    service: http://10.0.1.34:8080
+    service: http://backend:8000
   - service: http_status:404
 warp-routing:
   enabled: false
