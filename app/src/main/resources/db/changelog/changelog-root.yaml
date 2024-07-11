@@ -1,5 +1,0 @@
-databaseChangeLog:
-  - includeAll:
-      path: classpath:/db/changelog/catnip
-  - includeAll:
-      path: classpath:/db/changelog/pot
