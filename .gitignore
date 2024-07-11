@@ -35,3 +35,4 @@ replay_pid*
 /docker/docker-compose.yml
 /docker/tokens
 /docker/.env
+/app/

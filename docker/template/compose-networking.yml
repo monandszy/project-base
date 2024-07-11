@@ -1,23 +1,27 @@
 networks:
   default:
     driver: bridge
-    name: prod
+    name: networking
   observability:
     external: true
+  data:
+    external: true
 services:
-  backend:
-    image: project-base/app:${app-version}
+  caddy:
+    image: caddy:${caddy-version}
     restart: unless-stopped
-    environment:
-      - "SPRING_PROFILES_ACTIVE=prod"
     ports:
-      - "8080:8000"
-    networks:
-      - observability
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/data:/data
+      - ./caddy/config:/config
   tunnel:
     image: cloudflare/cloudflared:${cloudflared-version}
     restart: unless-stopped
     entrypoint: "cloudflared"
     volumes:
       - ./tunnel:/etc/cloudflared
-    depends_on: [backend]
+    depends_on: [ backend ]
