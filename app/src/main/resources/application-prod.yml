@@ -2,3 +2,6 @@ spring.config.activate.on-profile: prod
 spring:
   application:
     name: app-prod
+  datasource:
+    hikari:
+      schema: prod

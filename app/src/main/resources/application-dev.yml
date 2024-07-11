@@ -2,3 +2,10 @@ spring.config.activate.on-profile: dev
 spring:
   application:
     name: app-dev
+  datasource:
+    hikari:
+      schema: dev
+  jpa:
+    show-sql: true
+    properties:
+      format_sql: true

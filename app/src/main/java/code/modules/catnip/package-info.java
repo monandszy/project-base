@@ -5,4 +5,4 @@
  * </p>
  */
 @org.springframework.modulith.ApplicationModule(displayName = "catModule")
-package code.modules.cats;
+package code.modules.catnip;

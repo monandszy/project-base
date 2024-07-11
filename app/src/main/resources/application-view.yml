@@ -1,5 +1,5 @@
 # profile for easier view development with spring dev tools outside of docker
-# TODO implement prometheus push model to enable ip switching
+# TODO implement prometheus push model to be able to switch scraping ip
 spring.config.activate.on-profile: view
 
 management:
@@ -9,6 +9,9 @@ management:
 spring:
   application:
     name: app-view
+  datasource:
+    hikari:
+      schema: dev
   devtools:
     restart:
       enabled: true

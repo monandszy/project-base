@@ -1,4 +1,4 @@
-package code.modules.cats;
+package code.modules.catnip;
 
 public interface CatFacade {
 }

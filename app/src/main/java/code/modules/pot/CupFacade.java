@@ -1,4 +1,4 @@
-package code.modules.cups;
+package code.modules.pot;
 
 public interface CupFacade {
 }

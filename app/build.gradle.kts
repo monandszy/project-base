@@ -13,6 +13,10 @@ group = "code"
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 application.mainClass = "code.App"
 
+apply(from = rootProject.file("gradle/util/misc.gradle.kts"))
+apply(from = rootProject.file("gradle/util/git.gradle.kts"))
+apply(from = rootProject.file("gradle/util/docker.gradle.kts"))
+
 java {
    @Suppress("UnstableApiUsage")
    consistentResolution {
@@ -44,9 +48,9 @@ dependencies {
    annotationProcessor(libs.lombok)
    runtimeOnly("org.postgresql:postgresql")
    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-//   implementation("org.springframework.modulith:spring-modulith-starter-jpa")
+   implementation("org.liquibase:liquibase-core")
 
-//   implementation("org.liquibase:liquibase-core")
+//   implementation("org.springframework.modulith:spring-modulith-starter-jpa")
 
    testImplementation("org.springframework.boot:spring-boot-testcontainers")
    testImplementation("org.testcontainers:postgresql")
@@ -101,7 +105,6 @@ tasks {
          }
       }
    }
-
 
    test {
       useJUnitPlatform()

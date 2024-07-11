@@ -4,9 +4,11 @@ networks:
     name: prod
   observability:
     external: true
+  data:
+    external: true
 services:
   backend:
-    image: project-base/app:${app-version}
+    image: project-base/app:0.3.1-SNAPSHOT
     restart: unless-stopped
     environment:
       - "SPRING_PROFILES_ACTIVE=prod"
@@ -14,10 +16,4 @@ services:
       - "8080:8000"
     networks:
       - observability
-  tunnel:
-    image: cloudflare/cloudflared:${cloudflared-version}
-    restart: unless-stopped
-    entrypoint: "cloudflared"
-    volumes:
-      - ./tunnel:/etc/cloudflared
-    depends_on: [backend]
+      - data

@@ -9,8 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 class HomeController {
 
   @GetMapping(value = "/")
-  public String getHome() {
+  String getHome() {
     return "index";
+  }
+
+  @GetMapping(value = "/catnip")
+  String getCatnip() {
+    return "catnip";
   }
 
 
