@@ -15,7 +15,7 @@ tasks {
          workingDir("./docker/")
          commandLine(
             "docker", "compose",
-            "-p", moduleName,
+            "-p", profile,
             "-f", "$moduleName/docker/compose-$profile.yml",
             "up",
             "-d",
@@ -24,31 +24,47 @@ tasks {
       }
    }
 
-   register("moduleDevUp") {
+   register("moduleUp") {
       dependsOn("docker")
       doLast {
+         val profile = project.properties["profile"] ?: throw GradleException("-Pprofile=name not provided")
          val variables = HashMap<String, String>()
          variables["app-version"] = "$version"
+         variables["profile"] = "$profile"
          generateCompose(variables,
-            file("docker/template/compose-dev"),
-            file("docker/compose-dev")
+            file("docker/compose-app-template.yml"),
+            file("docker/compose-app.yml")
          )
-         val pName = project.properties["pName"] ?: throw GradleException("-PpName=name not provided")
-         composeModuleUp("dev", pName)
+         composeModuleUp(profile, project.name)
       }
    }
 
-   register("moduleProdUp") {
-      dependsOn("docker")
+   register<Exec>("extractLayers") {
+      dependsOn("bootJar")
+      workingDir = projectDir
+      commandLine(
+         "java",
+         "-Djarmode=layertools",
+         "-jar", "build/libs/${project.name}-${version}.jar",
+         "extract",
+         "--destination", "build/extracted"
+      )
+   }
+
+   register("docker") {
+      dependsOn("bootJar")
+      dependsOn(getByName("extractLayers"))
       doLast {
-         val variables = HashMap<String, String>()
-         variables["app-version"] = "$version"
-         generateCompose(variables,
-            file("docker/template/compose-prod"),
-            file("docker/compose-prod")
-         )
-         val pName = project.properties["pName"] ?: throw GradleException("-PpName=name not provided")
-         composeModuleUp("prod", pName)
+         exec {
+            commandLine(
+               "docker",
+               "build",
+               "--build-arg", "EXTRACTED=build/extracted",
+               "-t", "${rootProject.name}/${project.name}:$version",
+               "-q",
+               "."
+            )
+         }
       }
    }
 }

@@ -10,3 +10,4 @@ gradle.projectsLoaded {
 
 rootProject.name = "project-base"
 include("app")
+include("flashcard-app")

@@ -28,3 +28,4 @@ replay_pid*
 /docker/caddy/data/
 /docker/tunnel/
 /app/
+/flashcard-app/
