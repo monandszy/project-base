@@ -7,7 +7,6 @@ services:
     image: postgres:${postgres-version}
     restart: unless-stopped
     environment:
-      POSTGRES_DB: app_data
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:

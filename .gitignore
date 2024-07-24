@@ -26,6 +26,9 @@ replay_pid*
 /.idea/
 /docker/caddy/config/
 /docker/caddy/data/
-/docker/tunnel/
-/app/
-/flashcard-app/
+/docker/observability/grafana/
+/docker/observability/loki/
+/docker/observability/prometheus/
+/docker/observability/tempo/
+/docker/postgres/data/
+/_modules/*

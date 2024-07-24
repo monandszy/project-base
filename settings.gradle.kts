@@ -9,5 +9,7 @@ gradle.projectsLoaded {
 }
 
 rootProject.name = "project-base"
-include("app")
-include("flashcard-app")
+include(":app-template")
+project(":app-template").projectDir = file("_modules/app-template")
+include(":flashcard-app")
+project(":flashcard-app").projectDir = file("_modules/flashcard-app")
