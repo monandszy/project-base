@@ -6,10 +6,11 @@ junit-jupiter = "5.10.2"
 lombok = "1.18.32"
 spring-boot-plugin = "3.2.2"
 spring-dependency-plugin = "1.1.5"
-spring-modulith = "1.2.1"
-loki-logback-appender = "1.5.1"
+spring-modulith = "1.2.2"
 mapstruct = "1.6.0.Beta2"
 mapstruct-lombok = "0.2.0"
+javaagent-plugin = "0.5.1"
+javaagent-impl = "1.14.18"
 
 [libraries]
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
@@ -21,15 +22,19 @@ spring-modulith-core = { module = "org.springframework.modulith:spring-modulith-
 spring-modulith-events = { module = "org.springframework.modulith:spring-modulith-events-api", version.ref = "spring-modulith" }
 sprint-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 sprint-modulith-test = { module = "org.springframework.modulith:spring-modulith-starter-test" }
-spring-dev-tools = {module = "org.springframework.boot:spring-boot-devtools"}
+spring-dev-tools = { module = "org.springframework.boot:spring-boot-devtools" }
 
 #(runtimeOnly) Strange autoconfiguration errors in docker environments, disabled until absolutely needed
 #spring-moudlith-actuator = { module = "org.springframework.modulith:spring-modulith-actuator", version.ref = "spring-modulith" }
 spring-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
-micrometer-prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
-micrometer-brave = { module = "io.micrometer:micrometer-tracing-bridge-brave" }
-zipkin = { module = "io.zipkin.reporter2:zipkin-reporter-brave" }
-loki-logging = { module = "com.github.loki4j:loki-logback-appender", version.ref = "loki-logback-appender" }
+otel-starter = { module = "io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter" }
+modulith-observability = { module = "org.springframework.modulith:spring-modulith-starter-insight", version.ref = "spring-modulith" } # runtimeOnly
+#micrometer-prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
+#zipkin = { module = "io.zipkin.reporter2:zipkin-reporter-brave" }
+#micrometer-otel = { module = "io.micrometer:micrometer-tracing-bridge-otel" }
+#spring-zipkin = {module = "spring-cloud-starter-zipkin"}
+#spring-modulith-observability = { module = "org.springframework.modulith:spring-modulith-observability", version.ref = "spring-modulith"} # runtimeOnly
+#otel-exporter = { module = "io.opentelemetry:opentelemetry-exporter-otlp"}
 
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
@@ -38,15 +43,23 @@ mapstruct-lombok = { module = "org.projectlombok:lombok-mapstruct-binding", vers
 spring-testcontainers = { module = "org.springframework.boot:spring-boot-testcontainers" }
 test-postgresql = { module = "org.testcontainers:postgresql" }
 test-jupiter = { module = "org.testcontainers:junit-jupiter" }
+javaagent-impl = { module = "net.bytebuddy:byte-buddy-agent", version.ref = "javaagent-impl" }
+
+jmolecules-ddd = { module = "org.jmolecules:jmolecules-ddd" }
+jmolecules-events = { module = "org.jmolecules:jmolecules-events" }
+jmolecules-spring = { module = "org.jmolecules.integrations:jmolecules-spring" } # only for AssociationResolver
+jmolecules-jpa = { module = "org.jmolecules.integrations:jmolecules-jpa" }
 
 [bundles]
+jmolecules = ["jmolecules-ddd", "jmolecules-events", "jmolecules-spring", "jmolecules-jpa"]
 spring-web = ["spring-web", "spring-tymeleaf"]
 spring-modulith = ["spring-modulith-core", "spring-modulith-events"]
 spring-test = ["sprint-test", "sprint-modulith-test"]
 test-containers = ["spring-testcontainers", "test-postgresql", "test-jupiter"]
-observability = ["spring-actuator", "micrometer-prometheus", "micrometer-brave", "zipkin", "loki-logging"]
+observability = ["spring-actuator", "otel-starter"] # "micrometer-prometheus", "micrometer-otel", "otel-exporter"
 mapstruct-annotation = ["mapstruct-processor", "mapstruct-lombok"]
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot-plugin" }
 spring-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-plugin" }
+javaagent = { id = "com.ryandens.javaagent-test", version.ref = "javaagent-plugin" }

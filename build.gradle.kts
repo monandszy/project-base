@@ -110,9 +110,7 @@ tasks {
     dependsOn("generateBaseCompose")
     doLast {
       composeUp("observability")
-      waitUntilRunning("observability-grafana-1")
       composeUp("data")
-      waitUntilRunning("data-postgres-1")
     }
   }
 
@@ -131,18 +129,6 @@ tasks {
     doLast {
       val pName = project.properties["pName"] ?: throw GradleException("-PpName=name not provided")
       composeDown(pName)
-    }
-  }
-
-  register("stopContainer") {
-    doLast {
-      doLast {
-        val container = project.properties["container"] ?: throw GradleException("-Pcontainer=name not provided")
-        val pName = project.properties["pName"] ?: throw GradleException("-PpName=name not provided")
-        exec {
-          commandLine("docker", "stop", "$pName-$container-1")
-        }
-      }
     }
   }
 

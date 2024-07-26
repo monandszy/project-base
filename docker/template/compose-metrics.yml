@@ -1,0 +1,24 @@
+# Only run on the server, no need for short-lived dev applications
+networks:
+  networks:
+    observability:
+      external: true
+    app-template-prod:
+      external: true
+    app-template-dev:
+      external: true
+  default:
+    driver: bridge
+    name: metrics
+services:
+  prometheus:
+    image: prom/prometheus:${prometheus-version}
+    restart: unless-stopped
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./observability/prometheus:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - app-template-prod
+      - app-template-dev

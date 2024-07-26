@@ -11,15 +11,16 @@ tasks {
   }
 
   fun composeModuleUp(profile: Any, moduleName: Any) {
+    val suffix = if (profile == "prod") "" else "-$profile"
     exec {
       workingDir("./docker/")
       commandLine(
         "docker", "compose",
-        "-p", "$profile",
+        "-p", "$moduleName$suffix",
         "-f", "compose-$moduleName-$profile.yml",
         "up",
         "-d",
-        "--force-recreate", "$moduleName"
+        "--force-recreate", "$moduleName$suffix"
       )
     }
   }
@@ -34,7 +35,7 @@ tasks {
       variables["project-name"] = "${project.name}"
       generateCompose(
         variables,
-        file("docker/compose-${project.name}-$profile-template.yml"),
+        file("docker/template/compose-${project.name}-$profile.yml"),
         file("docker/compose-${project.name}-$profile.yml")
       )
       composeModuleUp(profile, project.name)
@@ -51,7 +52,7 @@ tasks {
       variables["project-name"] = "${project.name}"
       generateCompose(
         variables,
-        file("docker/compose-${project.name}-$profile-template.yml"),
+        file("docker/template/compose-${project.name}-$profile.yml"),
         file("docker/compose-${project.name}-$profile.yml")
       )
       composeModuleUp(profile, project.name)
@@ -64,10 +65,10 @@ tasks {
     }
   }
 
-  register("composeModuleDevDown") {
+  register("ModuleDevDown") {
     composeDown("${project.name}-dev")
   }
-  register("composeModuleProdDown") {
+  register("ModuleProdDown") {
     composeDown("${project.name}-prod")
   }
 
