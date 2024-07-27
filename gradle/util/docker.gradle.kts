@@ -17,7 +17,7 @@ tasks {
       commandLine(
         "docker", "compose",
         "-p", "$moduleName$suffix",
-        "-f", "compose-$moduleName-$profile.yml",
+        "-f", "compose-$profile.yml",
         "up",
         "-d",
         "--force-recreate", "$moduleName$suffix"
@@ -26,7 +26,7 @@ tasks {
   }
 
   register("moduleProdUp") {
-    dependsOn("docker")
+    dependsOn("dockerBuild")
     doLast {
       val profile = "prod"
       val variables = HashMap<String, String>()
@@ -35,15 +35,15 @@ tasks {
       variables["project-name"] = "${project.name}"
       generateCompose(
         variables,
-        file("docker/template/compose-${project.name}-$profile.yml"),
-        file("docker/compose-${project.name}-$profile.yml")
+        file("docker/template/compose-$profile.yml"),
+        file("docker/compose-$profile.yml")
       )
       composeModuleUp(profile, project.name)
     }
   }
 
   register("moduleDevUp") {
-    dependsOn("docker")
+    dependsOn("dockerBuild")
     doLast {
       val profile = "dev"
       val variables = HashMap<String, String>()
@@ -52,8 +52,8 @@ tasks {
       variables["project-name"] = "${project.name}"
       generateCompose(
         variables,
-        file("docker/template/compose-${project.name}-$profile.yml"),
-        file("docker/compose-${project.name}-$profile.yml")
+        file("docker/template/compose-$profile.yml"),
+        file("docker/compose-$profile.yml")
       )
       composeModuleUp(profile, project.name)
     }
@@ -72,27 +72,15 @@ tasks {
     composeDown("${project.name}-prod")
   }
 
-  register<Exec>("extractLayers") {
+  register("dockerBuild") {
     dependsOn("bootJar")
-    workingDir = projectDir
-    commandLine(
-      "java",
-      "-Djarmode=layertools",
-      "-jar", "build/libs/${project.name}-${version}.jar",
-      "extract",
-      "--destination", "build/extracted"
-    )
-  }
-  register("docker") {
-    dependsOn("bootJar")
-    dependsOn(getByName("extractLayers"))
     doLast {
       exec {
         workingDir = projectDir
         commandLine(
           "docker",
           "build",
-          "--build-arg", "EXTRACTED=build/extracted",
+          "--build-arg", "JAR_PATH=build/libs/${project.name}-${version}.jar",
           "-t", "${rootProject.name}/${project.name}:$version",
           "-q",
           "-f", "./docker/Dockerfile",

@@ -24,17 +24,9 @@ sprint-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 sprint-modulith-test = { module = "org.springframework.modulith:spring-modulith-starter-test" }
 spring-dev-tools = { module = "org.springframework.boot:spring-boot-devtools" }
 
-#(runtimeOnly) Strange autoconfiguration errors in docker environments, disabled until absolutely needed
-#spring-moudlith-actuator = { module = "org.springframework.modulith:spring-modulith-actuator", version.ref = "spring-modulith" }
 spring-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 otel-starter = { module = "io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter" }
 modulith-observability = { module = "org.springframework.modulith:spring-modulith-starter-insight", version.ref = "spring-modulith" } # runtimeOnly
-#micrometer-prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
-#zipkin = { module = "io.zipkin.reporter2:zipkin-reporter-brave" }
-#micrometer-otel = { module = "io.micrometer:micrometer-tracing-bridge-otel" }
-#spring-zipkin = {module = "spring-cloud-starter-zipkin"}
-#spring-modulith-observability = { module = "org.springframework.modulith:spring-modulith-observability", version.ref = "spring-modulith"} # runtimeOnly
-#otel-exporter = { module = "io.opentelemetry:opentelemetry-exporter-otlp"}
 
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
