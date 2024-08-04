@@ -26,6 +26,7 @@ tasks {
   }
 
   register("moduleProdUp") {
+    dependsOn("ModuleProdDown")
     dependsOn("dockerBuild")
     doLast {
       val profile = "prod"
@@ -43,6 +44,7 @@ tasks {
   }
 
   register("moduleDevUp") {
+    dependsOn("ModuleDevDown")
     dependsOn("dockerBuild")
     doLast {
       val profile = "dev"
