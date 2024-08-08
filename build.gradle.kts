@@ -75,6 +75,11 @@ tasks {
         file("${template}compose-data.yml"),
         file("${destination}compose-data.yml")
       )
+      generateCompose(
+        versionMap,
+        file("${template}compose-networking.yml"),
+        file("${destination}compose-networking.yml")
+      )
     }
   }
 
