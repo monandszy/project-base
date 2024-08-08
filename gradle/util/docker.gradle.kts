@@ -2,53 +2,93 @@ import java.nio.file.Files
 
 tasks {
 
-   fun generateCompose(map: Map<String, String>, templateFile: File, outputFile: File) {
-      var template = templateFile.readText()
-      map.forEach { (key, value) ->
-         template = template.replace("\${$key}", value)
-      }
-      Files.write(outputFile.toPath(), template.toByteArray())
-   }
+  fun generateCompose(map: Map<String, String>, templateFile: File, outputFile: File) {
+    var template = templateFile.readText()
+    map.forEach { (key, value) ->
+      template = template.replace("\${$key}", value)
+    }
+    Files.write(outputFile.toPath(), template.toByteArray())
+  }
 
-   fun composeModuleUp(profile: Any, moduleName: Any) {
+  fun composeModuleUp(profile: Any, moduleName: Any) {
+    val suffix = if (profile == "prod") "" else "-$profile"
+    exec {
+      workingDir("./docker/")
+      commandLine(
+        "docker", "compose",
+        "-p", "$moduleName$suffix",
+        "-f", "compose-$profile.yml",
+        "up",
+        "-d",
+        "--force-recreate", "$moduleName$suffix"
+      )
+    }
+  }
+
+  register("moduleProdUp") {
+    dependsOn("ModuleProdDown")
+    dependsOn("dockerBuild")
+    doLast {
+      val profile = "prod"
+      val variables = HashMap<String, String>()
+      variables["default-network"] = "${project.name}-$profile"
+      variables["project-version"] = "$version"
+      variables["project-name"] = "${project.name}"
+      generateCompose(
+        variables,
+        file("docker/template/compose-$profile.yml"),
+        file("docker/compose-$profile.yml")
+      )
+      composeModuleUp(profile, project.name)
+    }
+  }
+
+  register("moduleDevUp") {
+    dependsOn("ModuleDevDown")
+    dependsOn("dockerBuild")
+    doLast {
+      val profile = "dev"
+      val variables = HashMap<String, String>()
+      variables["default-network"] = "${project.name}-$profile"
+      variables["project-version"] = "$version"
+      variables["project-name"] = "${project.name}"
+      generateCompose(
+        variables,
+        file("docker/template/compose-$profile.yml"),
+        file("docker/compose-$profile.yml")
+      )
+      composeModuleUp(profile, project.name)
+    }
+  }
+
+  fun composeDown(projectName: Any) {
+    exec {
+      commandLine("docker", "compose", "-p", projectName, "down")
+    }
+  }
+
+  register("ModuleDevDown") {
+    composeDown("${project.name}-dev")
+  }
+  register("ModuleProdDown") {
+    composeDown("${project.name}-prod")
+  }
+
+  register("dockerBuild") {
+    dependsOn("bootJar")
+    doLast {
       exec {
-         workingDir("./docker/")
-         commandLine(
-            "docker", "compose",
-            "-p", moduleName,
-            "-f", "$moduleName/docker/compose-$profile.yml",
-            "up",
-            "-d",
-            "--force-recreate", "$moduleName"
-         )
+        workingDir = projectDir
+        commandLine(
+          "docker",
+          "build",
+          "--build-arg", "JAR_PATH=build/libs/${project.name}-${version}.jar",
+          "-t", "${rootProject.name}/${project.name}:$version",
+          "-q",
+          "-f", "./docker/Dockerfile",
+          "."
+        )
       }
-   }
-
-   register("moduleDevUp") {
-      dependsOn("docker")
-      doLast {
-         val variables = HashMap<String, String>()
-         variables["app-version"] = "$version"
-         generateCompose(variables,
-            file("docker/template/compose-dev"),
-            file("docker/compose-dev")
-         )
-         val pName = project.properties["pName"] ?: throw GradleException("-PpName=name not provided")
-         composeModuleUp("dev", pName)
-      }
-   }
-
-   register("moduleProdUp") {
-      dependsOn("docker")
-      doLast {
-         val variables = HashMap<String, String>()
-         variables["app-version"] = "$version"
-         generateCompose(variables,
-            file("docker/template/compose-prod"),
-            file("docker/compose-prod")
-         )
-         val pName = project.properties["pName"] ?: throw GradleException("-PpName=name not provided")
-         composeModuleUp("prod", pName)
-      }
-   }
+    }
+  }
 }

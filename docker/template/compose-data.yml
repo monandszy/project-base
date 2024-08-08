@@ -7,10 +7,10 @@ services:
     image: postgres:${postgres-version}
     restart: unless-stopped
     environment:
-      POSTGRES_DB: app_data
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - ./postgres/data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
