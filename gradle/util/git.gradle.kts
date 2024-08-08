@@ -10,10 +10,15 @@ tasks {
   }
 
   fun pull() {
-    exec {
-      commandLine("git", "pull", "-q")
+    try {
+      exec {
+        commandLine("git", "pull", "-q")
+      }
+    } catch (e: Exception) {
+      println("Git pull failed. Reason: ${e.message}")
     }
   }
+
 
   fun switch(branch: String) {
     exec {
