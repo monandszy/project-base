@@ -4,8 +4,12 @@ val versionFile: File by project.extra { file("project.version") }
 
 tasks {
   fun push() {
-    exec {
-      commandLine("git", "push", "-q")
+    try {
+      exec {
+        commandLine("git", "push", "-q")
+      }
+    } catch (e: Exception) {
+      println("Git push origin failed")
     }
   }
 
@@ -15,7 +19,7 @@ tasks {
         commandLine("git", "pull", "-q")
       }
     } catch (e: Exception) {
-      println("Git pull failed. Reason: ${e.message}")
+      println("Git pull origin failed")
     }
   }
 
