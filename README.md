@@ -1,12 +1,10 @@
 # Project Base
 
-The root repository for my Java projects, created between June 2024 and August 2024. It aggregates configurations and functions as shared container volume storage. 
-Each module has its own repository, with unique versions and selective dependency implementation.
+**Written:** 2024.06 - 2024.08
 
-### Usage Idea
-
-This project enables you to maintain multiple Spring applications and seamlessly deploy them on a home server.
-It works, but all of this is still pretty much in the experimental stage, so don't get too attached.
+The root repository for my Java projects, it aggregates gradle, git and docker configurations. 
+The idea is to maintain multiple Spring applications and seamlessly deploy them on a home server  
+Each module has its own repository, with unique versions and dependencies. It works, but all of this is still in the experimental stage, so don't get too attached.
 
 ### Current Docker Networks
 
