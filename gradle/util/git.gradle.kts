@@ -1,25 +1,29 @@
 import java.io.ByteArrayOutputStream
 
 val versionFile: File by project.extra { file("project.version") }
-
+val isOnline = false
 tasks {
   fun push() {
-    try {
-      exec {
-        commandLine("git", "push", "-q")
+    if (isOnline) {
+      try {
+        exec {
+          commandLine("git", "push", "-q")
+        }
+      } catch (e: Exception) {
+        println("Git push origin failed")
       }
-    } catch (e: Exception) {
-      println("Git push origin failed")
     }
   }
 
   fun pull() {
-    try {
-      exec {
-        commandLine("git", "pull", "-q")
+    if (isOnline) {
+      try {
+        exec {
+          commandLine("git", "pull", "-q")
+        }
+      } catch (e: Exception) {
+        println("Git pull origin failed")
       }
-    } catch (e: Exception) {
-      println("Git pull origin failed")
     }
   }
 

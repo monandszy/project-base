@@ -15,7 +15,6 @@
      "limit": 100,
      "matchAny": false,
      "tags": [
-
      ],
      "type": "dashboard"
     },
@@ -32,7 +31,6 @@
     "name": "diffs",
     "showIn": 0,
     "target": {
-
     }
    }
   ]
@@ -70,7 +68,6 @@
    },
    "id": 38,
    "panels": [
-
    ],
    "title": "General",
    "type": "row"
@@ -116,7 +113,6 @@
       }
      },
      "mappings": [
-
      ],
      "thresholds": {
       "mode": "absolute",
@@ -134,7 +130,6 @@
      "unit": "short"
     },
     "overrides": [
-
     ]
    },
    "gridPos": {
@@ -147,7 +142,6 @@
    "options": {
     "legend": {
      "calcs": [
-
      ],
      "displayMode": "list",
      "placement": "bottom",
@@ -211,7 +205,6 @@
       }
      },
      "mappings": [
-
      ],
      "thresholds": {
       "mode": "absolute",
@@ -229,7 +222,6 @@
      "unit": "decbytes"
     },
     "overrides": [
-
     ]
    },
    "gridPos": {
@@ -242,7 +234,6 @@
    "options": {
     "legend": {
      "calcs": [
-
      ],
      "displayMode": "list",
      "placement": "bottom",
@@ -306,7 +297,6 @@
       }
      },
      "mappings": [
-
      ],
      "thresholds": {
       "mode": "absolute",
@@ -324,7 +314,6 @@
      "unit": "short"
     },
     "overrides": [
-
     ]
    },
    "gridPos": {
@@ -337,7 +326,6 @@
    "options": {
     "legend": {
      "calcs": [
-
      ],
      "displayMode": "list",
      "placement": "bottom",
@@ -400,7 +388,6 @@
       }
      },
      "mappings": [
-
      ],
      "thresholds": {
       "mode": "absolute",
@@ -414,7 +401,6 @@
      "unit": "short"
     },
     "overrides": [
-
     ]
    },
    "gridPos": {
@@ -427,7 +413,6 @@
    "options": {
     "legend": {
      "calcs": [
-
      ],
      "displayMode": "list",
      "placement": "bottom",
@@ -492,7 +477,6 @@
       }
      },
      "mappings": [
-
      ],
      "thresholds": {
       "mode": "absolute",
@@ -510,7 +494,6 @@
      "unit": "decbytes"
     },
     "overrides": [
-
     ]
    },
    "gridPos": {
@@ -523,7 +506,6 @@
    "options": {
     "legend": {
      "calcs": [
-
      ],
      "displayMode": "list",
      "placement": "bottom",
@@ -587,7 +569,6 @@
       }
      },
      "mappings": [
-
      ],
      "thresholds": {
       "mode": "absolute",
@@ -605,7 +586,6 @@
      "unit": "decbytes"
     },
     "overrides": [
-
     ]
    },
    "gridPos": {
@@ -618,7 +598,6 @@
    "options": {
     "legend": {
      "calcs": [
-
      ],
      "displayMode": "list",
      "placement": "bottom",
@@ -690,7 +669,6 @@
       }
      },
      "mappings": [
-
      ],
      "thresholds": {
       "mode": "absolute",
@@ -708,7 +686,6 @@
      "unit": "decbytes"
     },
     "overrides": [
-
     ]
    },
    "gridPos": {
@@ -721,7 +698,6 @@
    "options": {
     "legend": {
      "calcs": [
-
      ],
      "displayMode": "list",
      "placement": "bottom",
@@ -784,7 +760,6 @@
       }
      },
      "mappings": [
-
      ],
      "thresholds": {
       "mode": "absolute",
@@ -802,7 +777,6 @@
      "unit": "short"
     },
     "overrides": [
-
     ]
    },
    "gridPos": {
@@ -815,7 +789,6 @@
    "options": {
     "legend": {
      "calcs": [
-
      ],
      "displayMode": "list",
      "placement": "bottom",
@@ -893,7 +866,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -911,7 +883,6 @@
        "unit": "percentunit"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -924,7 +895,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -987,7 +957,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -1005,7 +974,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -1018,7 +986,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -1091,7 +1058,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -1109,7 +1075,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -1122,7 +1087,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -1197,7 +1161,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -1215,7 +1178,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -1228,7 +1190,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -1294,7 +1255,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -1312,7 +1272,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -1325,7 +1284,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -1401,7 +1359,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -1419,7 +1376,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -1432,7 +1388,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -1502,7 +1457,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -1520,7 +1474,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -1533,7 +1486,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -1616,7 +1568,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -1633,7 +1584,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -1646,7 +1596,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -1711,7 +1660,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -1728,7 +1676,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -1741,7 +1688,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -1817,7 +1763,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -1834,7 +1779,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -1847,7 +1791,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -1914,7 +1857,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -1931,7 +1873,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -1944,7 +1885,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -2028,7 +1968,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -2045,7 +1984,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -2058,7 +1996,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -2123,7 +2060,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -2140,7 +2076,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -2153,7 +2088,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -2229,7 +2163,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -2246,7 +2179,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -2259,7 +2191,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -2326,7 +2257,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -2343,7 +2273,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -2356,7 +2285,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -2438,7 +2366,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -2455,7 +2382,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -2468,7 +2394,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -2533,7 +2458,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -2550,7 +2474,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -2563,7 +2486,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -2639,7 +2561,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -2656,7 +2577,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -2669,7 +2589,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -2736,7 +2655,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -2753,7 +2671,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -2766,7 +2683,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -2848,7 +2764,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -2865,7 +2780,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -2878,7 +2792,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -2943,7 +2856,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -2960,7 +2872,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -2973,7 +2884,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -3049,7 +2959,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -3066,7 +2975,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -3079,7 +2987,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -3146,7 +3053,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -3163,7 +3069,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -3176,7 +3081,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -3259,7 +3163,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -3276,7 +3179,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -3289,7 +3191,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -3361,7 +3262,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -3378,7 +3278,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -3391,7 +3290,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -3486,7 +3384,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -3503,7 +3400,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -3516,7 +3412,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -3590,7 +3485,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -3607,7 +3501,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -3620,7 +3513,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -3721,7 +3613,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -3738,7 +3629,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -3751,7 +3641,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -3823,7 +3712,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -3840,7 +3728,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -3853,7 +3740,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -3948,7 +3834,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -3965,7 +3850,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -3978,7 +3862,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -4050,7 +3933,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -4067,7 +3949,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -4080,7 +3961,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -4193,7 +4073,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -4211,7 +4090,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -4224,7 +4102,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -4295,7 +4172,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -4313,7 +4189,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -4326,7 +4201,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -4396,7 +4270,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -4414,7 +4287,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -4427,7 +4299,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -4491,7 +4362,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -4509,7 +4379,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -4522,7 +4391,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -4586,7 +4454,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -4604,7 +4471,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -4617,7 +4483,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -4681,7 +4546,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -4699,7 +4563,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -4712,7 +4575,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -4789,7 +4651,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -4807,7 +4668,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -4890,7 +4750,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -4908,7 +4767,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -4921,7 +4779,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -4985,7 +4842,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -5003,7 +4859,6 @@
        "unit": "none"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -5016,7 +4871,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -5086,7 +4940,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -5104,7 +4957,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -5117,7 +4969,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -5193,7 +5044,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -5211,7 +5061,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -5224,7 +5073,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -5301,7 +5149,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -5319,7 +5166,6 @@
        "unit": "none"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -5332,7 +5178,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -5415,7 +5260,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -5433,7 +5277,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -5446,7 +5289,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -5555,10 +5397,8 @@
         }
        },
        "links": [
-
        ],
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -5575,7 +5415,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -5588,7 +5427,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -5649,10 +5487,8 @@
         }
        },
        "links": [
-
        ],
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -5669,7 +5505,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -5682,7 +5517,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -5773,10 +5607,8 @@
         }
        },
        "links": [
-
        ],
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -5793,7 +5625,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -5806,7 +5637,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -5867,10 +5697,8 @@
         }
        },
        "links": [
-
        ],
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -5887,7 +5715,6 @@
        "unit": "s"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -5900,7 +5727,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -5989,10 +5815,8 @@
         }
        },
        "links": [
-
        ],
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -6009,7 +5833,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -6022,7 +5845,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -6087,10 +5909,8 @@
         }
        },
        "links": [
-
        ],
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -6107,7 +5927,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -6120,7 +5939,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -6181,10 +5999,8 @@
         }
        },
        "links": [
-
        ],
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -6201,7 +6017,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -6214,7 +6029,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -6282,10 +6096,8 @@
         }
        },
        "links": [
-
        ],
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -6302,7 +6114,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -6315,7 +6126,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -6408,18 +6218,15 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
         "steps": [
-
         ]
        },
        "unit": "percentunit"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -6431,11 +6238,9 @@
      "id": 77,
      "options": {
       "graph": {
-
       },
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -6468,7 +6273,6 @@
         "mode": "thresholds"
        },
        "mappings": [
-
        ],
        "max": 1,
        "min": 0,
@@ -6483,7 +6287,6 @@
        "unit": "percentunit"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -6507,7 +6310,6 @@
       },
       "showUnfilled": true,
       "text": {
-
       }
      },
      "pluginVersion": "9.0.0-d373beebpre",
@@ -6578,7 +6380,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -6595,7 +6396,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -6608,7 +6408,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -6670,7 +6469,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -6687,7 +6485,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -6700,7 +6497,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -6762,7 +6558,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -6775,7 +6570,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -6788,7 +6582,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -6856,7 +6649,6 @@
         }
        },
        "mappings": [
-
        ],
        "thresholds": {
         "mode": "absolute",
@@ -6869,7 +6661,6 @@
        "unit": "short"
       },
       "overrides": [
-
       ]
      },
      "gridPos": {
@@ -6882,7 +6673,6 @@
      "options": {
       "legend": {
        "calcs": [
-
        ],
        "displayMode": "list",
        "placement": "bottom",
@@ -6934,7 +6724,6 @@
     "multi": false,
     "name": "ds",
     "options": [
-
     ],
     "query": "prometheus",
     "queryValue": "",
@@ -6954,7 +6743,6 @@
     "multi": false,
     "name": "logsds",
     "options": [
-
     ],
     "query": "loki",
     "queryValue": "",
@@ -6979,7 +6767,6 @@
     "multi": false,
     "name": "cluster",
     "options": [
-
     ],
     "query": {
      "query": "label_values(tempo_build_info, cluster)",
@@ -7010,7 +6797,6 @@
     "multi": false,
     "name": "namespace",
     "options": [
-
     ],
     "query": {
      "query": "label_values(tempo_build_info{cluster=~'$cluster'}, namespace)",
