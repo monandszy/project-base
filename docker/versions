@@ -14,3 +14,5 @@ tempo-version=2.4.2
 postgres-version=16.3
 # https://hub.docker.com/r/openzipkin/zipkin/
 zipkin-version=3
+# https://hub.docker.com/_/rabbitmq
+rabbitmq-version=4.0-rc-management

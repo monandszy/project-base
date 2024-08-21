@@ -1,51 +1,14 @@
 networks:
-  #  metrics:
-  #    external: true
   default:
     driver: bridge
     name: observability
 services:
-  #  grafana:
-  #    image: grafana/grafana:${grafana-version}
-  #    restart: unless-stopped
-  #    environment:
-  #      - "GF_SECURITY_ADMIN_PASSWORD=admin"
-  #    ports:
-  #      - "3000:3000"
-  #    volumes:
-  #      - ./observability/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
-  #      - ./observability/grafana:/var/lib/grafana
-  ##    networks:
-  ##      - metrics
-  #  loki:
-  #    image: grafana/loki:${loki-version}
-  #    restart: unless-stopped
-  #    command: "-config.file=/etc/loki/local-config.yaml"
-  #    ports:
-  #      - "3100:3100"
-  #    volumes:
-  #      - ./observability/loki-config.yaml:/etc/loki/local-config.yaml
-  #      - ./observability/loki/:/loki/
-  #  tempo:
-  #    image: grafana/tempo:${tempo-version}
-  #    command: "-config.file=/etc/tempo.yaml"
-  #    volumes:
-  #      - ./observability/tempo.yml:/etc/tempo.yaml
-  #      - ./observability/tempo/:/tmp/tempo
-  #    ports:
-  #      - "3110:3100" # Tempo
-  #      - "9411:9411" # zipkin
-  #  zipkin:
-  #    image: openzipkin/zipkin:${zipkin-version}
-  #    restart: unless-stopped
-  #    ports:
-  #      - "9411:9411"
   otel-collector:
     image: otel/opentelemetry-collector:0.104.0
+    container_name: otel-collector
     restart: unless-stopped
     volumes:
       - ./observability/otel.yml:/etc/otelcol/config.yaml
     ports:
       - "4317:4317"
       - "4318:4318"
-    container_name: otel-collector

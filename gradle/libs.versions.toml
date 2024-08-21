@@ -11,45 +11,71 @@ mapstruct = "1.6.0.Beta2"
 mapstruct-lombok = "0.2.0"
 javaagent-plugin = "0.5.1"
 javaagent-impl = "1.14.18"
+thymeleaf-htmx-integration = "3.4.1"
+thymeleaf-layouts = "3.3.0"
 
 [libraries]
-junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
-junit-platform = { module = "org.junit.platform:junit-platform-launcher" }
-lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
-spring-web = { module = "org.springframework.boot:spring-boot-starter-web" }
-spring-tymeleaf = { module = "org.springframework.boot:spring-boot-starter-thymeleaf" }
-spring-modulith-core = { module = "org.springframework.modulith:spring-modulith-starter-core" }
-spring-modulith-events = { module = "org.springframework.modulith:spring-modulith-events-api", version.ref = "spring-modulith" }
-sprint-test = { module = "org.springframework.boot:spring-boot-starter-test" }
-sprint-modulith-test = { module = "org.springframework.modulith:spring-modulith-starter-test" }
-spring-dev-tools = { module = "org.springframework.boot:spring-boot-devtools" }
+spring-modulith = { module = "org.springframework.modulith:spring-modulith-starter-core" }
+
+postgresql = { module = "org.postgresql:postgresql" } # runtimeOnly
+spring-data = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+liquidbase = { module = "org.liquibase:liquibase-core" }
+modulith-exporter = { module = "org.springframework.modulith:spring-modulith-starter-jdbc", version.ref = "spring-modulith" }
 
 spring-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 otel-starter = { module = "io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter" }
 modulith-observability = { module = "org.springframework.modulith:spring-modulith-starter-insight", version.ref = "spring-modulith" } # runtimeOnly
 
-mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
-mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
-mapstruct-lombok = { module = "org.projectlombok:lombok-mapstruct-binding", version.ref = "mapstruct-lombok" }
+modulith-events = { module = "org.springframework.modulith:spring-modulith-events-api", version.ref = "spring-modulith" }
+modulith-moments = { module = "org.springframework.modulith:spring-modulith-moments" }
+amqp = { module = "org.springframework.boot:spring-boot-starter-amqp" }
+modulith-amqp-events = { module = "org.springframework.modulith:spring-modulith-events-amqp" }
 
-spring-testcontainers = { module = "org.springframework.boot:spring-boot-testcontainers" }
-test-postgresql = { module = "org.testcontainers:postgresql" }
-test-jupiter = { module = "org.testcontainers:junit-jupiter" }
-javaagent-impl = { module = "net.bytebuddy:byte-buddy-agent", version.ref = "javaagent-impl" }
+spring-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-tymeleaf = { module = "org.springframework.boot:spring-boot-starter-thymeleaf" }
+spring-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+
+thymeleaf-htmx-integration = { module = "io.github.wimdeblauwe:htmx-spring-boot-thymeleaf", version.ref = "thymeleaf-htmx-integration" }
+thymeleaf-security = { module = "org.thymeleaf.extras:thymeleaf-extras-springsecurity6" }
+thymelaf-layouts= {module = "nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect", version.ref = "thymeleaf-layouts"}
+
+spring-session = { module = "org.springframework.session:spring-session-core" }
 
 jmolecules-ddd = { module = "org.jmolecules:jmolecules-ddd" }
 jmolecules-events = { module = "org.jmolecules:jmolecules-events" }
 jmolecules-spring = { module = "org.jmolecules.integrations:jmolecules-spring" } # only for AssociationResolver
 jmolecules-jpa = { module = "org.jmolecules.integrations:jmolecules-jpa" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+mapstruct-lombok = { module = "org.projectlombok:lombok-mapstruct-binding", version.ref = "mapstruct-lombok" }
+
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
+junit-platform = { module = "org.junit.platform:junit-platform-launcher" }
+spring-testcontainers = { module = "org.springframework.boot:spring-boot-testcontainers" }
+postgresql-test = { module = "org.testcontainers:postgresql" }
+jupiter-testcontainers = { module = "org.testcontainers:junit-jupiter" }
+sprint-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+sprint-modulith-test = { module = "org.springframework.modulith:spring-modulith-starter-test" }
+rabbitmq-test = { module = "org.springframework.amqp:spring-rabbit-test" }
+rabbitmq-testcontainers = { module = "org.testcontainers:rabbitmq" }
+security-test = { module = "org.springframework.security:spring-security-test" }
+
+javaagent-impl = { module = "net.bytebuddy:byte-buddy-agent", version.ref = "javaagent-impl" }
+spring-dev-tools = { module = "org.springframework.boot:spring-boot-devtools" }
 
 [bundles]
+spring-data = ["modulith-exporter", "spring-data", "liquidbase"]
+observability = ["spring-actuator", "otel-starter"]
+events = ["modulith-events", "modulith-moments", "amqp", "modulith-amqp-events"]
+spring-web = ["spring-web", "spring-validation", "spring-security"]
+thymeleaf = ["spring-tymeleaf", "thymeleaf-htmx-integration", "thymeleaf-security", "thymelaf-layouts"]
+microservices = ["spring-session"]
 jmolecules = ["jmolecules-ddd", "jmolecules-events", "jmolecules-spring", "jmolecules-jpa"]
-spring-web = ["spring-web", "spring-tymeleaf"]
-spring-modulith = ["spring-modulith-core", "spring-modulith-events"]
-spring-test = ["sprint-test", "sprint-modulith-test"]
-test-containers = ["spring-testcontainers", "test-postgresql", "test-jupiter"]
-observability = ["spring-actuator", "otel-starter"] # "micrometer-prometheus", "micrometer-otel", "otel-exporter"
 mapstruct-annotation = ["mapstruct-processor", "mapstruct-lombok"]
+spring-test = ["sprint-test", "sprint-modulith-test", "rabbitmq-test", "security-test"]
+testcontainers = ["spring-testcontainers", "postgresql-test", "jupiter-testcontainers", "rabbitmq-testcontainers"]
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot-plugin" }

@@ -5,6 +5,7 @@ networks:
 services:
   postgres:
     image: postgres:${postgres-version}
+    container_name: postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
@@ -13,4 +14,11 @@ services:
       - "5432:5432"
     volumes:
       - ./postgres/data:/var/lib/postgresql/data
-#      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+  rabbitmq:
+    image: rabbitmq:${rabbitmq-version}
+    environment:
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+    ports:
+      - "5672:5672"
+      -  "15672:15672"

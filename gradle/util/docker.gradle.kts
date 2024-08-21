@@ -26,7 +26,7 @@ tasks {
   }
 
   register("moduleProdUp") {
-    dependsOn("ModuleProdDown")
+    dependsOn("moduleProdDown")
     dependsOn("dockerBuild")
     doLast {
       val profile = "prod"
@@ -44,7 +44,7 @@ tasks {
   }
 
   register("moduleDevUp") {
-    dependsOn("ModuleDevDown")
+    dependsOn("moduleDevDown")
     dependsOn("dockerBuild")
     doLast {
       val profile = "dev"
@@ -67,11 +67,11 @@ tasks {
     }
   }
 
-  register("ModuleDevDown") {
+  register("moduleDevDown") {
     composeDown("${project.name}-dev")
   }
-  register("ModuleProdDown") {
-    composeDown("${project.name}-prod")
+  register("moduleProdDown") {
+    composeDown("${project.name}")
   }
 
   register("dockerBuild") {
