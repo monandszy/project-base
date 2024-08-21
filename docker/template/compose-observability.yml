@@ -19,44 +19,43 @@ services:
     hostname: jaeger
     restart: unless-stopped
     environment:
-      - SPAN_STORAGE_TYPE=elasticsearch
-      - ES_SERVER_URLS=http://elasticsearch:9200
+      - SPAN_STORAGE_TYPE=opensearch
+      - ES_SERVER_URLS=http://opensearch:9200
     ports:
       - "16686:16686"
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-      otel-collector:
-        condition: service_started
-  elasticsearch:
-    image: elasticsearch:${ELK-version}
-    container_name: observability-elasticsearch
-    hostname: elasticsearch
+      - "4317"
+  opensearch-node:
+    image: opensearchproject/opensearch:${opensearch-version}
+    container_name: opensearch-node
+    hostname: opensearch
     restart: unless-stopped
+    environment:
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
+      - DISABLE_SECURITY_PLUGIN=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+      - ./observability/opensearch.yml:/usr/share/opensearch/config/opensearch.yml
     ports:
       - "9200:9200"
-    # - "9300:9300" # node to node
-    volumes:
-      - ./observability/elasticsearch:/usr/share/elasticsearch/data
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://elasticsearch:9200/_cluster/health" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-  kibana:
-    image: kibana:${ELK-version}
-    container_name: observability-kibana
-    hostname: kibana
-    restart: unless-stopped
+      - "9600:9600" # required for Performance Analyzer
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:${opensearch-version}
+    container_name: opensearch-dashboards
     ports:
       - "5601:5601"
+    environment:
+      - OPENSEARCH_HOSTS=["http://opensearch:9200"]
+      - DISABLE_SECURITY_DASHBOARDS_PLUGIN=true
     volumes:
-      - ./observability/kibana.yml:/usr/share/kibana/config/kibana.yml
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-      otel-collector:
-        condition: service_started
+      - ./observability/dashboards.yml:/usr/share/opensearch-dashboards/config/opensearch_dashboards.yml
+
+
+volumes:
+  opensearch-data:

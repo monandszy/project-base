@@ -24,3 +24,6 @@ jaeger-version: 1.60.0
 # https://hub.docker.com/_/logstash
 # https://hub.docker.com/_/kibana
 ELK-version: 8.15.0
+# https://hub.docker.com/r/opensearchproject/opensearch
+# https://hub.docker.com/r/opensearchproject/opensearch-dashboards
+opensearch-version: 2.16.0
