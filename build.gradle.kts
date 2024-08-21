@@ -26,7 +26,7 @@ tasks {
     val variables = HashMap<String, String>()
     file.forEachLine { line ->
       if (!line.startsWith("#")) {
-        val keyValue = line.split('=')
+        val keyValue = line.split(':')
         variables[keyValue[0].trim()] = keyValue[1].trim()
       }
     }
@@ -62,7 +62,7 @@ tasks {
 
   register("generateBaseCompose") {
     doLast {
-      val versionMap = loadFile(file("docker/versions"))
+      val versionMap = loadFile(file("docker/versions.yml"))
       val template = "docker/template/"
       val destination = "docker/"
       generateCompose(
@@ -82,6 +82,47 @@ tasks {
       )
     }
   }
+//  fun restartComposeContainer(projectName: Any) {
+//    exec {
+//      workingDir("./docker/")
+//      commandLine(
+//        "docker", "compose",
+//        "-p", projectName,
+//        "-f", "compose-$projectName.yml",
+//        "up",
+//        "-d",
+//        "--no-recreate",
+//      )
+//    }
+//  }
+  fun restartComposeContainer(projectName: String, serviceName: String) {
+    exec {
+      workingDir("./docker/")
+      commandLine(
+        "docker", "compose",
+        "-p", projectName,
+        "-f", "compose-$projectName.yml",
+        "up",
+        "-d",
+        "--force-recreate", serviceName
+      )
+    }
+  }
+
+  register("composeRestart") {
+    val pN: String? by project
+    val sN: String? by project
+
+    doFirst {
+      if (pN.isNullOrEmpty() || sN.isNullOrEmpty()) {
+        throw IllegalArgumentException("Both projectName (pN) and serviceName (sN) must be provided.")
+      }
+    }
+    doLast {
+      restartComposeContainer(pN!!, sN!!)
+    }
+  }
+
 
   fun composeUp(projectName: Any) {
     exec {
@@ -92,14 +133,14 @@ tasks {
         "-f", "compose-$projectName.yml",
         "up",
         "-d",
-        "--no-recreate"
+        "--no-recreate",
       )
     }
   }
   register("composeUp") {
     doLast {
       val projectName = project.properties["pName"] ?: throw GradleException("-PpName=name not provided")
-      val versionMap = loadFile(file("docker/versions"))
+      val versionMap = loadFile(file("docker/versions.yml"))
       val template = "docker/template/"
       val destination = "docker/"
       generateCompose(

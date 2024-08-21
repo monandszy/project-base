@@ -5,7 +5,8 @@ networks:
 services:
   postgres:
     image: postgres:${postgres-version}
-    container_name: postgres
+    container_name: data-postgres
+    hostname: postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
@@ -16,6 +17,8 @@ services:
       - ./postgres/data:/var/lib/postgresql/data
   rabbitmq:
     image: rabbitmq:${rabbitmq-version}
+    container_name: data-rabbitmq
+    hostname: rabbitmq
     environment:
       - RABBITMQ_DEFAULT_PASS=rabbitmq
       - RABBITMQ_DEFAULT_USER=rabbitmq

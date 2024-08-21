@@ -4,11 +4,59 @@ networks:
     name: observability
 services:
   otel-collector:
-    image: otel/opentelemetry-collector:0.104.0
-    container_name: otel-collector
+    image: otel/opentelemetry-collector:${otel-version}
+    container_name: observability-otel
+    hostname: otel-collector
     restart: unless-stopped
     volumes:
       - ./observability/otel.yml:/etc/otelcol/config.yaml
     ports:
       - "4317:4317"
       - "4318:4318"
+  jaeger-tracing:
+    image: jaegertracing/all-in-one:${jaeger-version}
+    container_name: observability-jaeger
+    hostname: jaeger
+    restart: unless-stopped
+    environment:
+      - SPAN_STORAGE_TYPE=elasticsearch
+      - ES_SERVER_URLS=http://elasticsearch:9200
+    ports:
+      - "16686:16686"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      otel-collector:
+        condition: service_started
+  elasticsearch:
+    image: elasticsearch:${ELK-version}
+    container_name: observability-elasticsearch
+    hostname: elasticsearch
+    restart: unless-stopped
+    ports:
+      - "9200:9200"
+    # - "9300:9300" # node to node
+    volumes:
+      - ./observability/elasticsearch:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://elasticsearch:9200/_cluster/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  kibana:
+    image: kibana:${ELK-version}
+    container_name: observability-kibana
+    hostname: kibana
+    restart: unless-stopped
+    ports:
+      - "5601:5601"
+    volumes:
+      - ./observability/kibana.yml:/usr/share/kibana/config/kibana.yml
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      otel-collector:
+        condition: service_started
