@@ -1,3 +1,4 @@
+version: '3'
 networks:
   default:
     driver: bridge
@@ -20,42 +21,37 @@ services:
     restart: unless-stopped
     environment:
       - SPAN_STORAGE_TYPE=opensearch
-      - ES_SERVER_URLS=http://opensearch:9200
+      - ES_SERVER_URLS=http://opensearch-node:9200
     ports:
       - "16686:16686"
       - "4317"
+    depends_on:
+      opensearch-node:
+        condition: service_healthy
   opensearch-node:
-    image: opensearchproject/opensearch:${opensearch-version}
+    image: opensearchproject/opensearch:latest
     container_name: opensearch-node
-    hostname: opensearch
-    restart: unless-stopped
     environment:
-      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
+      - discovery.type=single-node
       - DISABLE_SECURITY_PLUGIN=true
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-      nofile:
-        soft: 65536
-        hard: 65536
     volumes:
-      - opensearch-data:/usr/share/opensearch/data
-      - ./observability/opensearch.yml:/usr/share/opensearch/config/opensearch.yml
+      - ./observability/opensearch:/usr/share/opensearch/data
     ports:
       - "9200:9200"
-      - "9600:9600" # required for Performance Analyzer
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://opensearch-node:9200/_cluster/health" ]
+      interval: 3s
+      timeout: 5s
+      retries: 10
+
   opensearch-dashboards:
-    image: opensearchproject/opensearch-dashboards:${opensearch-version}
+    image: opensearchproject/opensearch-dashboards:latest
     container_name: opensearch-dashboards
     ports:
       - "5601:5601"
     environment:
-      - OPENSEARCH_HOSTS=["http://opensearch:9200"]
-      - DISABLE_SECURITY_DASHBOARDS_PLUGIN=true
-    volumes:
-      - ./observability/dashboards.yml:/usr/share/opensearch-dashboards/config/opensearch_dashboards.yml
-
-
-volumes:
-  opensearch-data:
+      OPENSEARCH_HOSTS: '["http://opensearch-node:9200"]'
+      DISABLE_SECURITY_DASHBOARDS_PLUGIN: true
+    depends_on:
+      opensearch-node:
+        condition: service_healthy
