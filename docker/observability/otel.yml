@@ -15,6 +15,15 @@ exporters:
     endpoint: "jaeger:4317"
     tls:
       insecure: true
+  otlp/logs:
+    endpoint: "data-prepper:21892"
+#    tls:
+#      insecure: true
+#      insecure_skip_verify: true
+  otlphttp/prometheus:
+    endpoint: "http://prometheus:9090/metrics"
+    tls:
+      insecure: true
 
 extensions:
   health_check:
@@ -27,7 +36,7 @@ service:
       exporters: [debug, otlp/jaeger]
     metrics:
       receivers: [otlp]
-      exporters: [debug]
-    logs:
-      receivers: [otlp]
-      exporters: [debug]
+      exporters: [debug, otlphttp/prometheus]
+#    logs:
+#      receivers: [otlp]
+#      exporters: [debug, otlp/logs]

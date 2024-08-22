@@ -29,8 +29,9 @@ services:
       opensearch-node:
         condition: service_healthy
   opensearch-node:
-    image: opensearchproject/opensearch:latest
-    container_name: opensearch-node
+    image: opensearchproject/opensearch:${opensearch-version}
+    container_name: observability-opensearch
+    hostname: opensearch-node
     environment:
       - discovery.type=single-node
       - DISABLE_SECURITY_PLUGIN=true
@@ -38,20 +39,39 @@ services:
       - ./observability/opensearch:/usr/share/opensearch/data
     ports:
       - "9200:9200"
+      - "9600:9600" # Performance Analyzer
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://opensearch-node:9200/_cluster/health" ]
-      interval: 3s
+      interval: 5s
       timeout: 5s
       retries: 10
-
   opensearch-dashboards:
-    image: opensearchproject/opensearch-dashboards:latest
-    container_name: opensearch-dashboards
+    image: opensearchproject/opensearch-dashboards:${opensearch-version}
+    container_name: observability-opensearch-dashboards
     ports:
       - "5601:5601"
+    expose:
+      - "5601"
     environment:
       OPENSEARCH_HOSTS: '["http://opensearch-node:9200"]'
       DISABLE_SECURITY_DASHBOARDS_PLUGIN: true
+    volumes:
+        - ./observability/dashboards.yml:/usr/share/opensearch-dashboards/config/opensearch_dashboards.yml
     depends_on:
       opensearch-node:
         condition: service_healthy
+  data-prepper:
+    image: opensearchproject/data-prepper:${data-prepper-version}
+    container_name: observability-data-prepper
+    hostname: data-prepper
+    restart: unless-stopped
+    volumes:
+      - ./observability/pipelines:/usr/share/data-prepper/pipelines
+  prometheus:
+    image: prom/prometheus:${prometheus-version}
+    container_name: observability-prometheus
+    restart: unless-stopped
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"

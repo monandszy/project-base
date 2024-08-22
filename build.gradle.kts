@@ -114,6 +114,14 @@ tasks {
     val sN: String? by project
 
     doFirst {
+      val versionMap = loadFile(file("docker/versions.yml"))
+      val template = "docker/template/"
+      val destination = "docker/"
+      generateCompose(
+        versionMap,
+        file("${template}compose-$pN.yml"),
+        file("${destination}compose-$pN.yml")
+      )
       if (pN.isNullOrEmpty() || sN.isNullOrEmpty()) {
         throw IllegalArgumentException("Both projectName (pN) and serviceName (sN) must be provided.")
       }
