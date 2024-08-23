@@ -1,7 +1,15 @@
-simple-sample-pipeline:
-  workers: 2
-  delay: "5000"
+otel-logs-pipeline:
+  workers: 5
+  delay: 10
   source:
-    random:
+    otel_logs_source:
+      ssl: false
+  buffer:
+    bounded_blocking:
   sink:
-    - stdout:
+    - opensearch:
+        hosts: [ "http://opensearch-node:9200" ]
+        insecure: true
+        index_type: custom
+        index: otel-events-%{yyyy.MM.dd}
+        bulk_size: 4
