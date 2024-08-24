@@ -70,9 +70,10 @@ services:
     restart: unless-stopped
     ports:
       - "4900:4900"
+      - "21892"
     volumes:
       - ./observability/pipelines:/usr/share/data-prepper/pipelines
-      - ./observability/data-prepper.yaml:/usr/share/data-prepper/data-prepper-config.yaml
+#      - ./observability/data-prepper.yaml:/usr/share/data-prepper/data-prepper-config.yaml
   prometheus:
     image: prom/prometheus:${prometheus-version}
     container_name: observability-prometheus

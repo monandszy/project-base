@@ -1,6 +1,6 @@
 otel-logs-pipeline:
-  workers: 5
-  delay: 10
+  workers: 1
+  delay: 5000
   source:
     otel_logs_source:
       ssl: false
@@ -12,4 +12,6 @@ otel-logs-pipeline:
         insecure: true
         index_type: custom
         index: otel-events-%{yyyy.MM.dd}
+        max_retries: 5
         bulk_size: 4
+    - stdout:

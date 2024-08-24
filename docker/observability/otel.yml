@@ -17,9 +17,8 @@ exporters:
       insecure: true
   otlp/logs:
     endpoint: "data-prepper:21892"
-#    tls:
-#      insecure: true
-#      insecure_skip_verify: true
+    tls:
+      insecure: true
 #  otlphttp/prometheus:
 #    endpoint: "http://prometheus:9090/metrics"
 #    tls:
@@ -37,6 +36,6 @@ service:
     metrics:
       receivers: [otlp]
       exporters: [debug]
-#    logs:
-#      receivers: [otlp]
-#      exporters: [debug, otlp/logs]
+    logs:
+      receivers: [otlp]
+      exporters: [debug, otlp/logs]
