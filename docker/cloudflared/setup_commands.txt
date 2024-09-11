@@ -1,6 +1,6 @@
 docker exec --user=0 networking-cloudflared cloudflared login
 
-docker cp networking-cloudflared:/root/.cloudflared/cert.pem ./cloudflared/cert.pem
+docker cp networking-cloudflared:/root/.cloudflared/cert.pem ./docker/cloudflared/cert.pem
 
 docker exec --user=0 networking-cloudflared cloudflared tunnel --config /etc/cloudflared/conf.yml create app-tunnel
 

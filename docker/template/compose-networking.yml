@@ -27,4 +27,5 @@ services:
     restart: unless-stopped
     entrypoint: "cloudflared"
     volumes:
-      - ./cloudflared:/etc/cloudflared
+      - ./cloudflared/conf.yml:/etc/cloudflared/conf.yml
+      - ./cloudflared/cert.pem:/etc/cloudflared/cert.pem
