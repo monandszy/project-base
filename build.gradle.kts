@@ -189,7 +189,7 @@ tasks {
   register("runTunnel") {
     doLast {
       exec {
-        workingDir("./docker/tunnel/")
+        workingDir("./docker/cloudflared/")
         commandLine(
           "bash", "run_tunnel.sh", "&"
         )
