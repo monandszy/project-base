@@ -1,10 +1,10 @@
 networks:
-  default:
+  networking:
     driver: bridge
     name: networking
-  observability:
+  app-template-prod:
     external: true
-  data:
+  app-template-dev:
     external: true
 services:
   caddy:
@@ -20,6 +20,9 @@ services:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       - ./caddy/data:/data
       - ./caddy/config:/config
+    networks:
+      - networking
+      - app-template-dev
   tunnel:
     image: cloudflare/cloudflared:${cloudflared-version}
     container_name: networking-cloudflared
@@ -29,3 +32,6 @@ services:
     volumes:
       - ./cloudflared/conf.yml:/etc/cloudflared/conf.yml
       - ./cloudflared/cert.pem:/etc/cloudflared/cert.pem
+    networks:
+      - networking
+      - app-template-prod
