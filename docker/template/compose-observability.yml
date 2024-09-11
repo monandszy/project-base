@@ -13,10 +13,10 @@ services:
     ports:
       - "4317:4317"
       - "4318:4318"
+      - "8889"
     depends_on:
       - data-prepper
       - jaeger-tracing
-      - prometheus
   jaeger-tracing:
     image: jaegertracing/all-in-one:${jaeger-version}
     container_name: observability-jaeger
@@ -38,8 +38,8 @@ services:
     environment:
       - discovery.type=single-node
       - DISABLE_SECURITY_PLUGIN=true
-#    volumes:
-#      - ./observability/opensearch:/usr/share/opensearch/data
+    volumes:
+      - ./observability/opensearch:/usr/share/opensearch/data
     ports:
       - "9200:9200"
       - "9600:9600" # Performance Analyzer
@@ -77,8 +77,11 @@ services:
   prometheus:
     image: prom/prometheus:${prometheus-version}
     container_name: observability-prometheus
+    hostname: prometheus
     restart: unless-stopped
     ports:
       - "9090:9090"
     volumes:
       - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - otel-collector
