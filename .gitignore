@@ -1,15 +1,21 @@
-# Ignore Gradle
+# Ignore Gradle project-specific cache directory
 .gradle
+
+# Ignore Gradle build output directory
 build
 
 # Compiled class file
 *.class
+
 # Log file
 *.log
+
 # BlueJ files
 *.ctxt
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+
 # Package Files #
 *.jar
 *.war
@@ -22,7 +28,6 @@ build
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
-
 /.idea/
 /docker/caddy/config/
 /docker/caddy/data/
@@ -31,4 +36,7 @@ replay_pid*
 /docker/observability/prometheus/
 /docker/observability/tempo/
 /docker/postgres/data/
+/docker/compose-data.yml
+/docker/compose-networking.yml
+/docker/compose-observability.yml
 /_modules/*

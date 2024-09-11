@@ -1,0 +1,42 @@
+otel-logs-pipeline:
+  workers: 1
+  delay: 5000
+  source:
+    otel_logs_source:
+      ssl: false
+  buffer:
+    bounded_blocking:
+  sink:
+    - opensearch:
+        hosts: [ "http://opensearch-node:9200" ]
+        insecure: true
+        index_type: custom
+        index: logs-otel-%{yyyy.MM.dd}
+        max_retries: 5
+        bulk_size: 4
+
+otel-metrics-pipeline:
+  workers: 1
+  delay: 3000
+  source:
+    otel_metrics_source:
+      ssl: false
+  buffer:
+    bounded_blocking:
+      buffer_size: 1024 # max number of records the buffer accepts
+      batch_size: 1024 # max number of records the buffer drains after each read
+  processor:
+    - otel_metrics:
+        calculate_histogram_buckets: true
+        calculate_exponential_histogram_buckets: true
+        exponential_histogram_max_allowed_scale: 10
+        flatten_attributes: false
+  sink:
+    - stdout:
+    - opensearch:
+        hosts: [ "http://opensearch-node:9200" ]
+        insecure: true
+        index_type: custom
+        index: metrics-otel-%{yyyy.MM.dd}
+        max_retries: 5
+        bulk_size: 4

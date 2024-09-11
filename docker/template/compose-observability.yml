@@ -1,51 +1,87 @@
 networks:
-  #  metrics:
-  #    external: true
   default:
     driver: bridge
     name: observability
 services:
-  #  grafana:
-  #    image: grafana/grafana:${grafana-version}
-  #    restart: unless-stopped
-  #    environment:
-  #      - "GF_SECURITY_ADMIN_PASSWORD=admin"
-  #    ports:
-  #      - "3000:3000"
-  #    volumes:
-  #      - ./observability/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
-  #      - ./observability/grafana:/var/lib/grafana
-  ##    networks:
-  ##      - metrics
-  #  loki:
-  #    image: grafana/loki:${loki-version}
-  #    restart: unless-stopped
-  #    command: "-config.file=/etc/loki/local-config.yaml"
-  #    ports:
-  #      - "3100:3100"
-  #    volumes:
-  #      - ./observability/loki-config.yaml:/etc/loki/local-config.yaml
-  #      - ./observability/loki/:/loki/
-  #  tempo:
-  #    image: grafana/tempo:${tempo-version}
-  #    command: "-config.file=/etc/tempo.yaml"
-  #    volumes:
-  #      - ./observability/tempo.yml:/etc/tempo.yaml
-  #      - ./observability/tempo/:/tmp/tempo
-  #    ports:
-  #      - "3110:3100" # Tempo
-  #      - "9411:9411" # zipkin
-  #  zipkin:
-  #    image: openzipkin/zipkin:${zipkin-version}
-  #    restart: unless-stopped
-  #    ports:
-  #      - "9411:9411"
   otel-collector:
-    image: otel/opentelemetry-collector:0.104.0
+    image: otel/opentelemetry-collector:${otel-version}
+    container_name: observability-otel
+    hostname: otel-collector
     restart: unless-stopped
     volumes:
       - ./observability/otel.yml:/etc/otelcol/config.yaml
     ports:
       - "4317:4317"
       - "4318:4318"
-    container_name: otel-collector
+      - "8889"
+    depends_on:
+      - data-prepper
+      - jaeger-tracing
+  jaeger-tracing:
+    image: jaegertracing/all-in-one:${jaeger-version}
+    container_name: observability-jaeger
+    hostname: jaeger
+    restart: unless-stopped
+    environment:
+      - SPAN_STORAGE_TYPE=opensearch
+      - ES_SERVER_URLS=http://opensearch-node:9200
+    ports:
+      - "16686:16686"
+      - "4317"
+    depends_on:
+      opensearch-node:
+        condition: service_healthy
+  opensearch-node:
+    image: opensearchproject/opensearch:${opensearch-version}
+    container_name: observability-opensearch
+    hostname: opensearch-node
+    environment:
+      - discovery.type=single-node
+      - DISABLE_SECURITY_PLUGIN=true
+    volumes:
+      - ./observability/opensearch:/usr/share/opensearch/data
+    ports:
+      - "9200:9200"
+      - "9600:9600" # Performance Analyzer
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://opensearch-node:9200/_cluster/health" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:${opensearch-version}
+    container_name: observability-opensearch-dashboards
+    ports:
+      - "5601:5601"
+    expose:
+      - "5601"
+    environment:
+      OPENSEARCH_HOSTS: '["http://opensearch-node:9200"]'
+      DISABLE_SECURITY_DASHBOARDS_PLUGIN: true
+#    volumes:
+#        - ./observability/dashboards.yml:/usr/share/opensearch-dashboards/config/opensearch_dashboards.yml
+    depends_on:
+      opensearch-node:
+        condition: service_healthy
+  data-prepper:
+    image: opensearchproject/data-prepper:${data-prepper-version}
+    container_name: observability-data-prepper
+    hostname: data-prepper
+    restart: unless-stopped
+    ports:
+      - "4900:4900"
+      - "21892"
+    volumes:
+      - ./observability/pipelines:/usr/share/data-prepper/pipelines
+#      - ./observability/data-prepper.yaml:/usr/share/data-prepper/data-prepper-config.yaml
+  prometheus:
+    image: prom/prometheus:${prometheus-version}
+    container_name: observability-prometheus
+    hostname: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - otel-collector

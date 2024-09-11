@@ -9,6 +9,8 @@ networks:
 services:
   caddy:
     image: caddy:${caddy-version}
+    container_name: networking-caddy
+    hostname: caddy
     restart: unless-stopped
     ports:
       - "80:80"
@@ -20,7 +22,9 @@ services:
       - ./caddy/config:/config
   tunnel:
     image: cloudflare/cloudflared:${cloudflared-version}
+    container_name: networking-cloudflared
+    hostname: cloudflared
     restart: unless-stopped
     entrypoint: "cloudflared"
     volumes:
-      - ./tunnel:/etc/cloudflared
+      - ./cloudflared:/etc/cloudflared
