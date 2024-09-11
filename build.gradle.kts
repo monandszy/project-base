@@ -13,7 +13,6 @@ contacts {
     roles("developer", "maintainer")
   })
 }
-
 subprojects {
   version = File("${projectDir}/project.version").readText().trim()
 }
@@ -82,19 +81,7 @@ tasks {
       )
     }
   }
-//  fun restartComposeContainer(projectName: Any) {
-//    exec {
-//      workingDir("./docker/")
-//      commandLine(
-//        "docker", "compose",
-//        "-p", projectName,
-//        "-f", "compose-$projectName.yml",
-//        "up",
-//        "-d",
-//        "--no-recreate",
-//      )
-//    }
-//  }
+
   fun restartComposeContainer(projectName: String, serviceName: String) {
     exec {
       workingDir("./docker/")
