@@ -8,4 +8,4 @@ docker exec --user=0 networking-cloudflared cloudflared tunnel route dns app-tun
 
 docker exec -e TUNNEL_ORIGIN_CERT=/etc/cloudflared/cert.pem --user=0 networking-cloudflared cloudflared tunnel --config /etc/cloudflared/conf.yml run app-tunnel
 
-// -e TUNNEL_ORIGIN_CERT=/etc/cloudflared/cert.pem
+// -e TUNNEL_ORIGIN_CERT=./root/.cloudflared/cert.pem

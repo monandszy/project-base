@@ -23,7 +23,7 @@ services:
     networks:
       - networking
       - app-template-dev
-  tunnel:
+  cloudflared:
     image: cloudflare/cloudflared:${cloudflared-version}
     container_name: networking-cloudflared
     hostname: cloudflared
@@ -31,7 +31,7 @@ services:
     entrypoint: "cloudflared"
     volumes:
       - ./cloudflared/conf.yml:/etc/cloudflared/conf.yml
-      - ./cloudflared/cert.pem:/etc/cloudflared/cert.pem
+      - ./root/.cloudflared/cert.pem:/etc/cloudflared/cert.pem
     networks:
       - networking
       - app-template-prod
