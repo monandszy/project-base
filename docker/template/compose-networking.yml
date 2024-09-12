@@ -31,7 +31,7 @@ services:
     entrypoint: "cloudflared"
     volumes:
       - ./cloudflared/conf.yml:/etc/cloudflared/conf.yml
-      - ./root/.cloudflared/cert.pem:/etc/cloudflared/cert.pem
+      - ./cloudflared/cert.pem:/root/.cloudflared/cert.pem
     networks:
       - networking
       - app-template-prod
