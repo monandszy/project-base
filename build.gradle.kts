@@ -16,9 +16,12 @@ contacts {
 subprojects {
   version = File("${projectDir}/project.version").readText().trim()
 }
-
-apply(from = rootProject.file("gradle/util/misc.gradle.kts"))
-apply(from = rootProject.file("gradle/util/git.gradle.kts"))
+try {
+  apply(from = rootProject.file("gradle/util/misc.gradle.kts"))
+  apply(from = rootProject.file("gradle/util/git.gradle.kts"))
+} catch (e: Exception) {
+  println("Error while loading utils ${e.message}")
+}
 
 tasks {
   fun loadFile(file: File): HashMap<String, String> {
@@ -162,8 +165,10 @@ tasks {
   }
 
   register("composeBaseDown") {
-    composeDown("data")
-    composeDown("observability")
+    doLast {
+      composeDown("data")
+      composeDown("observability")
+    }
   }
 
   register("composeDown") {
