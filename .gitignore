@@ -35,3 +35,4 @@ replay_pid*
 /docker/compose-networking.yml
 /docker/compose-observability.yml
 /_modules/*
+**/Authorization.class

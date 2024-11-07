@@ -68,10 +68,14 @@ tasks {
   }
 
   register("moduleDevDown") {
-    composeDown("${project.name}-dev")
+    doLast {
+      composeDown("${project.name}-dev")
+    }
   }
   register("moduleProdDown") {
-    composeDown("${project.name}")
+    doLast {
+      composeDown("${project.name}")
+    }
   }
 
   register("dockerBuild") {
