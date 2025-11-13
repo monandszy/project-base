@@ -1,0 +1,23 @@
+version: "3.5"
+
+networks:
+  ${default-network}:
+    driver: bridge
+    name: ${default-network}
+  observability:
+    external: true
+  data:
+    external: true
+services:
+  ${project-name}:
+    container_name: ${project-name}
+    image: project-base/${project-name}:${project-version}
+    restart: unless-stopped
+    environment:
+      - "SPRING_PROFILES_ACTIVE=prod"
+    ports:
+      - "8080"
+    networks:
+      - observability
+      - data
+      - ${default-network}

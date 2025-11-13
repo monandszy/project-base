@@ -1,0 +1,39 @@
+version: "3.5"
+
+networks:
+  networking:
+    driver: bridge
+    name: networking
+  app-template-prod:
+    external: true
+  app-template-dev:
+    external: true
+services:
+  caddy:
+    image: caddy:2.8.4-alpine
+    container_name: networking-caddy
+    hostname: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+    networks:
+      - networking
+      - app-template-dev
+  cloudflared:
+    image: cloudflare/cloudflared:2024.9.1
+    container_name: networking-cloudflared
+    hostname: cloudflared
+    restart: unless-stopped
+    entrypoint: "cloudflared"
+    volumes:
+      - ./cloudflared/conf.yml:/etc/cloudflared/conf.yml
+      - ./cloudflared:/root/.cloudflared
+    networks:
+      - networking
+      - app-template-prod
