@@ -21,5 +21,13 @@ To start a stack:
 docker-compose -p {stack} -f docker\compose-{stack}.yml up -d
 ```
 
+### Docker environment noitice
+Because I run the containers in a deprecated version of docker called toolbox (I'm sorry, but the desktop is just complete trash), I need to add the following flag in the compose configuration. Remove it for production use.
+
+```
+security_opt:
+  - "seccomp:unconfined"
+```
+
 ## Notes about `docker/modules` templates:
 - `docker/modules/compose-dev.yml` and `compose-prod.yml` are templates using variables `${project-name}`, `${project-version}`, and `${default-network}`. Based on them a compose file can be created for a module.
