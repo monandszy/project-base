@@ -24,7 +24,6 @@ services:
       - ./caddy/config:/config
     networks:
       - networking
-      - app-template-dev
   cloudflared:
     image: cloudflare/cloudflared:2024.9.1
     container_name: networking-cloudflared
@@ -36,4 +35,5 @@ services:
       - ./cloudflared:/root/.cloudflared
     networks:
       - networking
-      - app-template-prod
+    security_opt:
+      - "seccomp:unconfined"

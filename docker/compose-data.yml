@@ -19,7 +19,8 @@ services:
     volumes:
       -  pgdata:/var/lib/postgresql/data
       - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
-    privileged: true
+    security_opt:
+      - "seccomp:unconfined"
   rabbitmq:
     image: rabbitmq:4.0-rc-management
     container_name: data-rabbitmq
@@ -31,7 +32,8 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-    privileged: true
+    security_opt:
+      - "seccomp:unconfined"
 
 volumes:
   pgdata:
