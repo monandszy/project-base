@@ -1,4 +1,4 @@
-# Project Base
+# Spring Project Base
 
 ## Overview
 This repository is a small, multi-module Spring Boot starter using Gradle (Kotlin DSL) and Spring Modulith. Its purpose is to organize application modules and provide supporting Docker Compose stacks for data, networking, and observability.
